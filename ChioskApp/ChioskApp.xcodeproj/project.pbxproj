@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3B57BC562CF4517F000C5B1C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3B57BC552CF4517F000C5B1C /* SnapKit */; };
+		3B57BC5B2CF45195000C5B1C /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 3B57BC5A2CF45195000C5B1C /* Then */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		7128EC082CF413E3006DE99D /* ChioskApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChioskApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B57BC562CF4517F000C5B1C /* SnapKit in Frameworks */,
+				3B57BC5B2CF45195000C5B1C /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,8 @@
 			);
 			name = ChioskApp;
 			packageProductDependencies = (
+				3B57BC552CF4517F000C5B1C /* SnapKit */,
+				3B57BC5A2CF45195000C5B1C /* Then */,
 			);
 			productName = ChioskApp;
 			productReference = 7128EC082CF413E3006DE99D /* ChioskApp.app */;
@@ -107,6 +116,10 @@
 			);
 			mainGroup = 7128EBFF2CF413E3006DE99D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3B57BC542CF4517F000C5B1C /* XCRemoteSwiftPackageReference "SnapKit" */,
+				3B57BC592CF45195000C5B1C /* XCRemoteSwiftPackageReference "Then" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7128EC092CF413E3006DE99D /* Products */;
 			projectDirPath = "";
@@ -149,7 +162,6 @@
 				INFOPLIST_FILE = ChioskApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
@@ -181,7 +193,6 @@
 				INFOPLIST_FILE = ChioskApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
@@ -343,6 +354,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3B57BC542CF4517F000C5B1C /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		3B57BC592CF45195000C5B1C /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3B57BC552CF4517F000C5B1C /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B57BC542CF4517F000C5B1C /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		3B57BC5A2CF45195000C5B1C /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B57BC592CF45195000C5B1C /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7128EC002CF413E3006DE99D /* Project object */;
 }
