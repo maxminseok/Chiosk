@@ -36,7 +36,3 @@ class MenuSelectionHandler: UIViewController {
 }
 
 
-#Preview("MenuSelectionHandler") {
-    //뷰 컨트롤러 생성
-    MenuSelectionHandler()
-}
