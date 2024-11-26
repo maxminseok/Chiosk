@@ -15,7 +15,7 @@ class MenuList: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFl
     func setupCollectionViewLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical // 세로 스크롤
-        layout.minimumLineSpacing = 48 // 세로 간격
+        layout.minimumLineSpacing = 24 // 세로 간격
         layout.minimumInteritemSpacing = 20 // 가로 간격
         
         return layout
@@ -165,7 +165,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.6),
             
-            name.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+            name.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             name.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             name.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
