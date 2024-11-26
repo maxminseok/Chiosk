@@ -1,16 +1,16 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  ChioskApp
 //
 //  Created on 2024-11-25.
-//  Developer: DoyleHWorks
+//  MenuListNavigator 및 OrderSummaryView 관리
 //
 
 import UIKit
 import SnapKit
 import Then
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

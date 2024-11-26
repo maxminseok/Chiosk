@@ -1,10 +1,11 @@
 //
-//  MenuSelectionHandler.swift
+//  OrderSummaryView.swift
 //  ChioskApp
 //
 //  Created on 2024-11-26.
-//  Developer: kangminseoung
+//  선택 항목 및 버튼 표시 뷰
 //
+
 import SnapKit
 import UIKit
 
