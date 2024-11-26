@@ -2,7 +2,8 @@
 //  ViewController.swift
 //  ChioskApp
 //
-//  Created by t0000-m0112 on 2024-11-25.
+//  Created on 2024-11-25.
+//  Developer: DoyleHWorks
 //
 
 import UIKit
