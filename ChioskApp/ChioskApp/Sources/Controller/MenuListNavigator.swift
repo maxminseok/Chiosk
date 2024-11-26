@@ -1,8 +1,9 @@
 //
-//  MenuListNavigatorViewController.swift
+//  MenuListNavigator.swift
 //  ChioskApp
 //
-//  Created by 이재건 on 11/26/24.
+//  Created on 11/26/24.
+//  MenuCategoryView 및 MenuListView 관리
 //
 
 import UIKit

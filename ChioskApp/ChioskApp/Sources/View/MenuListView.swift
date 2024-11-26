@@ -1,9 +1,9 @@
 //
-//  MenuList.swift
+//  MenuListView.swift
 //  ChioskApp
 //
 //  Created on 2024-11-26.
-//  Developer: maxminseok
+//  카테고리별 메뉴 항목 표시 뷰
 //
 
 import UIKit
