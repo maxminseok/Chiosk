@@ -11,12 +11,10 @@ import Then
 
 class MenuListNavigatorVC: UIViewController {
     
-    private var uiSegmentedControl: UISegmentedControl {
-        let items = ["치킨", "사이드", "음료", "기타"]
-        let segmentedControl = UISegmentedControl().then {
-            $0.selectedSegmentIndex = 0
-        }
-        return segmentedControl
+    private let segmentControl = UISegmentedControl(items: ["치킨", "사이드", "음료", "기타"]).then {
+        $0.selectedSegmentIndex = 0
+        $0.backgroundColor = .lightGray
+        $0.selectedSegmentTintColor = .white
     }
     
     
@@ -52,6 +50,8 @@ class MenuListNavigatorVC: UIViewController {
     }
     
     
+    //398
+    
     
     func configureUI() {
         view.backgroundColor = .white
@@ -63,8 +63,35 @@ class MenuListNavigatorVC: UIViewController {
             $0.width.equalToSuperview()
         }
         
+        view.addSubview(segmentControl)
+        segmentControl.snp.makeConstraints {
+            $0.top.equalTo(logo.snp.bottom)
+            $0.width.equalToSuperview()
+            $0.height.equalTo(58)
+        }
         
+        // MARK: Place Holder 뷰들 레이아웃
+        [chickenView, sidedishView, drinkView, etcView].forEach {
+            view.addSubview($0)
+            $0.snp.makeConstraints {
+                $0.width.equalToSuperview()
+                $0.height.equalTo(352)
+                $0.top.equalTo(segmentControl.snp.bottom)
+            }
+            
+        }
+        
+
+//        view.addSubview(segmentControl)
+//        segmentControl.snp.mak던 eConstraints {
+//            $0.top.equalTo(logo.snp.bottom)
+//            $0.width.equalToSuperview()
+//            $0.height.equalTo(58)
+//        }
+    
     }
+    
+    
 }
 
 #Preview("MenuListNavigatorVC") {
