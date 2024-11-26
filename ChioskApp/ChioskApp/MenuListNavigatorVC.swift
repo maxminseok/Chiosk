@@ -9,17 +9,16 @@ import UIKit
 import SnapKit
 import Then
 
-
-
 class MenuListNavigatorVC: UIViewController {
     
     private var uiSegmentedControl: UISegmentedControl {
-        let menu = ["치킨", "사이드", "음료", "기타"]
+        let items = ["치킨", "사이드", "음료", "기타"]
         let segmentedControl = UISegmentedControl().then {
             $0.selectedSegmentIndex = 0
         }
         return segmentedControl
     }
+    
     
     //MARK: 상단 로고
     private let logo = UILabel().then {
@@ -37,6 +36,8 @@ class MenuListNavigatorVC: UIViewController {
         configureUI()
     }
     
+    
+    //MARK: Palce holder
     private let chickenView = UIView().then {
         $0.backgroundColor = .lightGray
     }
@@ -50,6 +51,8 @@ class MenuListNavigatorVC: UIViewController {
         $0.backgroundColor = .black
     }
     
+    
+    
     func configureUI() {
         view.backgroundColor = .white
         
@@ -60,7 +63,11 @@ class MenuListNavigatorVC: UIViewController {
             $0.width.equalToSuperview()
         }
         
+        
     }
 }
 
+#Preview("MenuListNavigatorVC") {
+    MenuListNavigatorVC()
+}
 
