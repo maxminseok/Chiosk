@@ -156,6 +156,4 @@ class CustomCollectionViewCell: UICollectionViewCell {
 
 
 
-#Preview {
-    MenuListViewController()
-}
+
