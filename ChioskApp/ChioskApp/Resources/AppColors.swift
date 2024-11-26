@@ -17,6 +17,6 @@ import UIKit
 /// ```
 ///
 extension UIColor {
-    static let customPrimary = UIColor(named: "PrimaryColor")!
-    static let customSecondary = UIColor(named: "SecondaryColor")!
+    static let customPrimary = UIColor(named: "CustomPrimaryColor")!
+    static let customSecondary = UIColor(named: "CustomSecondaryColor")!
 }
