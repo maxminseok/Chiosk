@@ -13,12 +13,10 @@ import UIKit
 /// Example Usage:
 /// ```swift
 /// let button = UIButton()
-/// button.backgroundColor = .customPrimary
+/// button.backgroundColor = .chioskPrimaryColor
 /// ```
 ///
-
-
-//extension UIColor {
-//    static let customPrimary = UIColor(named: "CustomPrimaryColor")!
-//    static let customSecondary = UIColor(named: "CustomSecondaryColor")!
-//}
+extension UIColor {
+    static let chioskPrimaryColor = UIColor(named: "ChioskPrimaryColor")!
+    static let chioskSecondaryColor = UIColor(named: "ChioskSecondaryColor")!
+}
