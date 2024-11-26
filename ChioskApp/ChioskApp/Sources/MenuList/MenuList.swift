@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MenuList: NSObject, UICollectionViewDataSource {
+class MenuList: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var menuData: [(image: String, title: String, price: String)] = []
     
     // 컬렉션 뷰 정의
@@ -16,7 +16,7 @@ class MenuList: NSObject, UICollectionViewDataSource {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical // 세로 스크롤
         layout.minimumLineSpacing = 48 // 세로 간격
-        layout.minimumInteritemSpacing = 21 // 가로 간격
+        layout.minimumInteritemSpacing = 20 // 가로 간격
         
         return layout
     }
@@ -44,23 +44,22 @@ class MenuList: NSObject, UICollectionViewDataSource {
     // 셀 레이아웃 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemPerRow: CGFloat = 3 // 가로로 배치할 셀 개수
-        let itemPerColumn: CGFloat = 2 // 세로로 배치할 셀 개수
         
         // 셀 간격의 합
         let totalHorizonSpacing = (itemPerRow - 1) * 21
-        let totalVerticalSpacing = (itemPerColumn - 1) * 48
         
         // 셀 크기 설정
         //간격(totalSpacing)이 커질수록 셀의 크기가 작아짐
         let width = (collectionView.frame.width - totalHorizonSpacing) / itemPerRow
-        let height = (collectionView.frame.height - totalVerticalSpacing) / itemPerColumn
+        let height = width * 1.5
         
         return CGSize(width: width, height: height)
     }
     
 }
 
-class MenuListViewController: UIViewController, UICollectionViewDelegate {
+
+class MenuListViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     
     let collectionView: UICollectionView
     let menuList = MenuList()
@@ -68,7 +67,7 @@ class MenuListViewController: UIViewController, UICollectionViewDelegate {
     init() {
         let layout = menuList.setupCollectionViewLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil, bundle: nil) // 부모클래스(viewController)의 초기화 메서드 호출
     }
     
     required init?(coder: NSCoder) {
@@ -80,21 +79,20 @@ class MenuListViewController: UIViewController, UICollectionViewDelegate {
         view.backgroundColor = .white
         
         // 테스트 데이터
-           menuList.menuData = [
-               (image: "Fried", title: "후라이드1", price: "10,000"),
-               (image: "Fried", title: "후라이드2", price: "20,000"),
-               (image: "Fried", title: "후라이드3", price: "30,000"),
-               (image: "Fried", title: "후라이드4", price: "40,000"),
-               (image: "Fried", title: "후라이드5", price: "50,000"),
-               (image: "Fried", title: "후라이드6", price: "60,000")
-           ]
+        menuList.menuData = [
+            (image: "Fried", title: "후라이드1", price: "10,000"),
+            (image: "Fried", title: "후라이드2", price: "20,000"),
+            (image: "Fried", title: "후라이드3", price: "30,000"),
+            (image: "Fried", title: "후라이드4", price: "40,000"),
+            (image: "Fried", title: "후라이드5", price: "50,000"),
+            (image: "Fried", title: "후라이드6", price: "60,000")]
         
         setupCollectionView()
     }
     
     func setupCollectionView() {
         collectionView.dataSource = menuList
-        collectionView.delegate = self
+        collectionView.delegate = menuList
         collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "CustomCellIdentifier")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -104,8 +102,9 @@ class MenuListViewController: UIViewController, UICollectionViewDelegate {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 27),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -27),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -329)
         ])
+        
     }
     
     // 셀 클릭 이벤트 처리
@@ -120,6 +119,7 @@ class MenuListViewController: UIViewController, UICollectionViewDelegate {
     }
     
 }
+
 
 class CustomCollectionViewCell: UICollectionViewCell {
     
@@ -171,8 +171,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
             
             price.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 4),
             price.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            price.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            price.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            price.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
     
@@ -180,8 +179,6 @@ class CustomCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-
 
 #Preview {
     MenuListViewController()
