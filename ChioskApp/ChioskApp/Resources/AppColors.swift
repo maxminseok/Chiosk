@@ -16,7 +16,7 @@ import UIKit
 /// button.backgroundColor = .customPrimary
 /// ```
 ///
-extension UIColor {
-    static let customPrimary = UIColor(named: "CustomPrimaryColor")!
-    static let customSecondary = UIColor(named: "CustomSecondaryColor")!
-}
+//extension UIColor {
+//    static let customPrimary = UIColor(named: "CustomPrimaryColor")!
+//    static let customSecondary = UIColor(named: "CustomSecondaryColor")!
+//}
