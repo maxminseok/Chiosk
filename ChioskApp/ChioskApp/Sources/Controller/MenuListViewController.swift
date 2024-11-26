@@ -7,7 +7,15 @@
 
 import UIKit
 
+// 클릭 했을 떄 OrderHandler 혹은 MainViewContoller name과 price를 넘기기 위한 프로토콜
+protocol MenuSelectionDelegate: AnyObject {
+    func didSelectMenuItem(name: String, price: String)
+}
+
+
 class MenuListViewController: UIViewController, UICollectionViewDelegateFlowLayout {
+    
+    weak var delegate: MenuSelectionDelegate? // 델리게이트 속성 추가
     
     let collectionView: UICollectionView
     let menuList = MenuList()
@@ -60,10 +68,13 @@ class MenuListViewController: UIViewController, UICollectionViewDelegateFlowLayo
         let item = menuList.menuData[indexPath.row]
         print("셀 클릭됨: \(item.title)")
 
-        // 클릭된 셀에 따라 동작
-        let alert = UIAlertController(title: "셀 클릭", message: "\(item.title) 클릭됨", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
+        delegate?.didSelectMenuItem(name: item.title, price: item.price) // 이벤트 처리
+        /*
+         
+         OrderHandler 혹은 MainViewContoller에서 MenuSelectionDelegate 프로토콜 채택한 뒤
+         func didSelectMenuItem(name: String, price: String) 메서드 구현해서 클릭한 셀의 name과 price 받기
+         
+        */
     }
     
 }
