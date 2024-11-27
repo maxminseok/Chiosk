@@ -11,49 +11,9 @@ import UIKit
 
 let cellID = "OrderCell" // 컬렉션 뷰 셀의 재사용을 위한 식별자 설정
 
-class OrderSummaryView: UIView, UICollectionViewDataSource, UICollectionViewDelegate {
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI() // UI 구성 메서드 호출
-        setupButtons() // 버튼 구성 메서드 호출
-        
-        // 주문 상태 변경 알림 등록
-        NotificationCenter.default.addObserver(self, selector: #selector(updateOrderData), name: .orderUpdated, object: nil)
-        
-        // 컬렉션 뷰의 델리게이트 및 데이터소스 설정
-        collectionView.delegate = self
-        collectionView.dataSource = self
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    // 섹션당 아이템 수 설정
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return OrderManager.shared.orders.count
-    }
-
-    // 셀 구성 메서드
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // 컬렉션 뷰에서 재사용 가능한 셀을 가져온다.
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? OrderSummaryViewCell else {
-            return UICollectionViewCell()
-        }
-        let order = OrderManager.shared.orders[indexPath.row]
-        cell.menu = order.menu
-        cell.quantityLabel.text = "\(order.quantity)"
-        return cell
-    }
-
-    // 주문 데이터 업데이트
-    @objc private func updateOrderData() {
-        collectionView.reloadData()
-        itemQuantityLabel.text = "\(OrderManager.shared.orders.count)개"
-        amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
-    }
-
+class OrderSummaryView: UIView {
+    
+    // MARK: - Properties
     private var entireView = UIView() // 주문 하단 전체 뷰
     
     // 레이블 정의
@@ -76,6 +36,22 @@ class OrderSummaryView: UIView, UICollectionViewDataSource, UICollectionViewDele
         return cv
     }()
     
+    // MARK: - Initializer
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI() // UI 구성 메서드 호출
+        setupButtons() // 버튼 구성 메서드 호출
+        setupNotifications() // 알림 등록
+        setupCollectionView() // 컬렉션 뷰 설정
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - UI Setup
+extension OrderSummaryView {
     private func setupUI() {
         backgroundColor = .white // 기본 배경을 흰색으로 설정
     
@@ -140,7 +116,10 @@ class OrderSummaryView: UIView, UICollectionViewDataSource, UICollectionViewDele
             $0.centerY.equalTo(totalAmountLabel) // 합계 레이블과 세로 중앙 정렬
         }
     }
-    
+}
+
+// MARK: - Button Actions
+extension OrderSummaryView {
     private func setupButtons() {
         // 직원 호출 버튼 설정
         employeeCallButton.setTitle("직원호출", for: .normal)
@@ -198,4 +177,48 @@ class OrderSummaryView: UIView, UICollectionViewDataSource, UICollectionViewDele
         let totalAmount = OrderManager.shared.totalAmount
         print("결제 완료: \(totalAmount)원")
         
-        // 결제 완료
+        // 결제 완료 후 초기화
+        OrderManager.shared.resetOrders()
+        NotificationCenter.default.post(name: .orderUpdated, object: nil) // 상태 업데이트 알림
+    }
+}
+
+// MARK: - CollectionView DataSource & Delegate
+extension OrderSummaryView: UICollectionViewDataSource, UICollectionViewDelegate {
+    private func setupCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return OrderManager.shared.orders.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? OrderSummaryViewCell else {
+            return UICollectionViewCell()
+        }
+        let order = OrderManager.shared.orders[indexPath.row]
+        cell.menu = order.menu
+        cell.setQuantityLabel(order.quantity)
+        return cell
+    }
+}
+
+// MARK: - Notification Setup
+extension OrderSummaryView {
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateOrderData),
+            name: .orderUpdated,
+            object: nil
+        )
+    }
+    
+    @objc private func updateOrderData() {
+        collectionView.reloadData()
+        itemQuantityLabel.text = "\(OrderManager.shared.orders.count)개"
+        amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
+    }
+}

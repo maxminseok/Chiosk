@@ -18,6 +18,14 @@ class OrderSummaryViewCell: UICollectionViewCell {
     private let minusButton = UIButton() // 수량 감소 버튼
     private let plusButton = UIButton() // 수량 증가 버튼
     
+    func setQuantityLabel(_ quantity: Int) {
+        quantityLabel.text = "\(quantity)"
+    }
+    
+    func getQuantityLabel() -> String {
+        return quantityLabel.text ?? "0"
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCellUI() // 셀 UI 설정 메서드 호출
