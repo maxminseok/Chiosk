@@ -18,10 +18,11 @@ class MenuListViewController: UIViewController, UICollectionViewDelegateFlowLayo
     weak var delegate: MenuSelectionDelegate? // 델리게이트 속성 추가
     
     let collectionView: UICollectionView
+    let menuListView = MenuListView()
     let menuList = MenuList()
     
     init() {
-        let layout = menuList.setupCollectionViewLayout()
+        let layout = menuListView.setupCollectionViewLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         super.init(nibName: nil, bundle: nil) // 부모클래스(viewController)의 초기화 메서드 호출
     }
@@ -34,22 +35,15 @@ class MenuListViewController: UIViewController, UICollectionViewDelegateFlowLayo
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        // 테스트 데이터
-        menuList.menuData = [
-            (image: "Fried", title: "후라이드1", price: "10,000"),
-            (image: "Fried", title: "후라이드2", price: "20,000"),
-            (image: "Fried", title: "후라이드3", price: "30,000"),
-            (image: "Fried", title: "후라이드4", price: "40,000"),
-            (image: "Fried", title: "후라이드5", price: "50,000"),
-            (image: "Fried", title: "후라이드6", price: "60,000")]
-        
+        menuListView.menuData = menuList.menuExample1
+
         setupCollectionView()
     }
     
     func setupCollectionView() {
-        collectionView.dataSource = menuList
-        collectionView.delegate = menuList
-        collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "CustomCellIdentifier")
+        collectionView.dataSource = menuListView
+        collectionView.delegate = menuListView
+        collectionView.register(MenuListViewCell.self, forCellWithReuseIdentifier: "MenuListViewCell")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(collectionView)
@@ -65,7 +59,7 @@ class MenuListViewController: UIViewController, UICollectionViewDelegateFlowLayo
     
     // 셀 클릭 이벤트 처리
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = menuList.menuData[indexPath.row]
+        let item = menuListView.menuData[indexPath.row]
         print("셀 클릭됨: \(item.title)")
 
         delegate?.didSelectMenuItem(name: item.title, price: item.price) // 이벤트 처리

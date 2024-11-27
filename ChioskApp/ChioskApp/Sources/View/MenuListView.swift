@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MenuList: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class MenuListView: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var menuData: [(image: String, title: String, price: String)] = []
     
     // 컬렉션 뷰 정의
@@ -28,7 +28,7 @@ class MenuList: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFl
     
     // 셀 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCellIdentifier", for: indexPath) as? CustomCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuListViewCell", for: indexPath) as? MenuListViewCell else {
             return UICollectionViewCell()
         }
         

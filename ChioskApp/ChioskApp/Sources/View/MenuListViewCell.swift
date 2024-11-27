@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomCollectionViewCell: UICollectionViewCell {
+class MenuListViewCell: UICollectionViewCell {
     
     // UI 요소 정의
     // 이미지
