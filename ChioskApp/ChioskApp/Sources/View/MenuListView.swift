@@ -9,7 +9,11 @@
 import UIKit
 
 class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    var menuData: [(image: String, title: String, price: String)] = []
+    var menuData: [(image: String, title: String, price: String)] = [] {
+        didSet {
+            collectionView.reloadData() // 데이터가 변경되면 컬렉션 뷰 새로고침
+        }
+    }
     
     // 컬렉션 뷰 정의
     let collectionView: UICollectionView = {
