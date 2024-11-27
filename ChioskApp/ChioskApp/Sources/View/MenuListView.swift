@@ -8,18 +8,21 @@
 
 import UIKit
 
-class MenuListView: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    var menuData: [(image: String, title: String, price: String)] = []
+class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    var menuData: [(image: String, title: String, price: String)] = [] {
+        didSet {
+            collectionView.reloadData() // 데이터가 변경되면 컬렉션 뷰 새로고침
+        }
+    }
     
     // 컬렉션 뷰 정의
-    func setupCollectionViewLayout() -> UICollectionViewFlowLayout {
+    let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical // 세로 스크롤
         layout.minimumLineSpacing = 24 // 세로 간격
         layout.minimumInteritemSpacing = 20 // 가로 간격
-        
-        return layout
-    }
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }()
     
     // 셀 개수 반환
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -56,10 +59,25 @@ class MenuListView: NSObject, UICollectionViewDataSource, UICollectionViewDelega
         return CGSize(width: width, height: height)
     }
     
+    func setupCollectionView(_ viewController: UIViewController) {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(MenuListViewCell.self, forCellWithReuseIdentifier: "MenuListViewCell")
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        viewController.view.addSubview(collectionView)
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: viewController.view.topAnchor, constant: 200),
+            collectionView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor, constant: 27),
+            collectionView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor, constant: -27),
+            collectionView.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor, constant: -329)
+        ])
+    }
+    
 }
 
 
 #Preview {
-    MenuListViewController()
+    MainViewController()
 }
 
