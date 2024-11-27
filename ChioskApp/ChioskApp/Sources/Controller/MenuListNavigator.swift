@@ -10,13 +10,23 @@ import UIKit
 import SnapKit
 import Then
 
-class MenuListNavigatorVC: UIViewController {
+class MenuListNavigator: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureUI()
+        segmentChanged(segmentControl)
+    }
+
     
     private let segmentControl = UISegmentedControl(items: ["치킨", "사이드", "음료", "기타"]).then {
         $0.selectedSegmentIndex = 0
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .systemGray6
         $0.selectedSegmentTintColor = .white
+        $0.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
     }
+    // 클릭했을 때, 뷰를 변환되게 하는 메소드. 클릭 액션 메소드. 이것에 대한 로직을 이제 함수로 구현해야함
+    // 초기 뷰를 선언해야함.
     
     
     //MARK: 상단 로고
@@ -27,14 +37,7 @@ class MenuListNavigatorVC: UIViewController {
         $0.textAlignment = .center
         $0.font = UIFont.boldSystemFont(ofSize: 30)
     }
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        configureUI()
-    }
-    
+
     
     //MARK: Palce holder
     private let chickenView = UIView().then {
@@ -50,8 +53,8 @@ class MenuListNavigatorVC: UIViewController {
         $0.backgroundColor = .black
     }
     
-    
-    //398
+    //MARK: 현재 뷰를 추적하는 변수
+    var currentView: UIView?
     
     
     func configureUI() {
@@ -61,13 +64,14 @@ class MenuListNavigatorVC: UIViewController {
         view.addSubview(logo)
         logo.snp.makeConstraints {
             $0.top.height.equalTo(60)
-            $0.width.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
         }
         
+        //MARK: SegmentedControl
         view.addSubview(segmentControl)
         segmentControl.snp.makeConstraints {
             $0.top.equalTo(logo.snp.bottom)
-            $0.width.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(58)
         }
         
@@ -81,21 +85,40 @@ class MenuListNavigatorVC: UIViewController {
             }
             
         }
-        
-
-//        view.addSubview(segmentControl)
-//        segmentControl.snp.mak던 eConstraints {
-//            $0.top.equalTo(logo.snp.bottom)
-//            $0.width.equalToSuperview()
-//            $0.height.equalTo(58)
-//        }
     
     }
     
+    @objc func segmentChanged(_ sender: UISegmentedControl) {
+        currentView?.removeFromSuperview()
+        
+        switch sender.selectedSegmentIndex {
+        case 0:
+            currentView = chickenView
+        case 1:
+            currentView = sidedishView
+        case 2:
+            currentView = drinkView
+        case 3:
+            currentView = etcView
+        default:
+            return
+        }
+        
+        if let currentView = currentView {
+            view.addSubview(currentView)
+            currentView.snp.makeConstraints {
+                $0.top.equalTo(segmentControl.snp.bottom)
+                $0.height.equalTo(352)
+                $0.leading.trailing.equalToSuperview()
+                
+            }
+        }
+    }
     
 }
 
+
 #Preview("MenuListNavigatorVC") {
-    MenuListNavigatorVC()
+    MenuListNavigator()
 }
 
