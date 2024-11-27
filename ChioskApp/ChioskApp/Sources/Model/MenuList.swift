@@ -21,28 +21,28 @@ struct MenuList {
             (image: "Fried", title: "후라이드6", price: "60,000")
         ],
         "사이드": [
-            (image: "Fried", title: "후라이드1", price: "10,000"),
-            (image: "Fried", title: "후라이드2", price: "20,000"),
-            (image: "Fried", title: "후라이드3", price: "30,000"),
-            (image: "Fried", title: "후라이드4", price: "40,000"),
-            (image: "Fried", title: "후라이드5", price: "50,000"),
-            (image: "Fried", title: "후라이드6", price: "60,000")
+            (image: "Fried", title: "사이드1", price: "10,000"),
+            (image: "Fried", title: "사이드2", price: "20,000"),
+            (image: "Fried", title: "사이드3", price: "30,000"),
+            (image: "Fried", title: "사이드4", price: "40,000"),
+            (image: "Fried", title: "사이드5", price: "50,000"),
+            (image: "Fried", title: "사이드6", price: "60,000")
         ],
         "음료": [
-            (image: "Fried", title: "후라이드1", price: "10,000"),
-            (image: "Fried", title: "후라이드2", price: "20,000"),
-            (image: "Fried", title: "후라이드3", price: "30,000"),
-            (image: "Fried", title: "후라이드4", price: "40,000"),
-            (image: "Fried", title: "후라이드5", price: "50,000"),
-            (image: "Fried", title: "후라이드6", price: "60,000")
+            (image: "Fried", title: "음료1", price: "10,000"),
+            (image: "Fried", title: "음료2", price: "20,000"),
+            (image: "Fried", title: "음료3", price: "30,000"),
+            (image: "Fried", title: "음료4", price: "40,000"),
+            (image: "Fried", title: "음료5", price: "50,000"),
+            (image: "Fried", title: "음료6", price: "60,000")
         ],
         "기타": [
-            (image: "Fried", title: "후라이드1", price: "10,000"),
-            (image: "Fried", title: "후라이드2", price: "20,000"),
-            (image: "Fried", title: "후라이드3", price: "30,000"),
-            (image: "Fried", title: "후라이드4", price: "40,000"),
-            (image: "Fried", title: "후라이드5", price: "50,000"),
-            (image: "Fried", title: "후라이드6", price: "60,000")
+            (image: "Fried", title: "기타1", price: "10,000"),
+            (image: "Fried", title: "기타2", price: "20,000"),
+            (image: "Fried", title: "기타3", price: "30,000"),
+            (image: "Fried", title: "기타4", price: "40,000"),
+            (image: "Fried", title: "기타5", price: "50,000"),
+            (image: "Fried", title: "기타6", price: "60,000")
         ]
     ]
 }
