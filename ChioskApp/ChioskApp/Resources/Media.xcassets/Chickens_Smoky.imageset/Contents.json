@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Chickens_Smoky.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
