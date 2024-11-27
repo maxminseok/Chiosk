@@ -31,19 +31,52 @@ class MenuCategoryView {
         $0.font = UIFont(name: "ProtestRiot-Regular", size: 36)
     }
 
+    private let menuList = MenuList()
+    
+    let chickenMenu = MenuListView()
+    let sidedishMenu = MenuListView()
+    let drinkMenu = MenuListView()
+    let etcMenu = MenuListView()
     
     //MARK: Palce holder
     let chickenView = UIView().then {
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .white
     }
     let sidedishView = UIView().then {
-        $0.backgroundColor = .gray
+        $0.backgroundColor = .white
     }
     let drinkView = UIView().then {
-        $0.backgroundColor = .darkGray
+        $0.backgroundColor = .white
     }
     let etcView = UIView().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = .white
     }
     
+    init() {
+        setUpMenus()
+    }
+    
+    private func setUpMenus() {
+        chickenMenu.menuData = menuList.menuCategories["치킨", default: []]
+        sidedishMenu.menuData = menuList.menuCategories["사이드", default: []]
+        drinkMenu.menuData = menuList.menuCategories["음료", default: []]
+        etcMenu.menuData = menuList.menuCategories["기타", default: []]
+        
+        chickenView.addSubview(chickenMenu)
+        sidedishView.addSubview(sidedishMenu)
+        drinkView.addSubview(drinkMenu)
+        etcView.addSubview(etcMenu)
+        
+        // 레이아웃 설정
+        let views = [chickenMenu, sidedishMenu, drinkMenu, etcMenu]
+        views.forEach { menu in
+            menu.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                menu.topAnchor.constraint(equalTo: menu.superview!.topAnchor),
+                menu.leadingAnchor.constraint(equalTo: menu.superview!.leadingAnchor),
+                menu.trailingAnchor.constraint(equalTo: menu.superview!.trailingAnchor),
+                menu.bottomAnchor.constraint(equalTo: menu.superview!.bottomAnchor)
+            ])
+        }
+    }
 }
