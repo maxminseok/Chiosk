@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TestSegment: UISegmentedControl {
+class MenuCategorySegmentedControl: UISegmentedControl {
   override init(items: [Any]?) {
     super.init(items: items)
   }
