@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 class MainViewController: UIViewController {
-
+    
     let menuListNavigator = MenuListNavigator()
 
     override func viewDidLoad() {
