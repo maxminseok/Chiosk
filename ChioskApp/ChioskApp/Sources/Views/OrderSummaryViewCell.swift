@@ -8,6 +8,7 @@
 import UIKit
 
 class OrderSummaryViewCell: UICollectionViewCell {
+    var menu: (image: String, title: String, price: String)? // 메뉴 데이터
     
     private let containerView = UIView() // 셀 전체 영역을 감싸는 컨테이너 뷰
     private let chickenImageView = UIImageView() // 치킨 이미지 표시할 뷰
@@ -20,12 +21,15 @@ class OrderSummaryViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCellUI() // 셀 UI 설정 메서드 호출
+        setupActions() // 버튼 액션 설정
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented") // 서브 클래싱할 때 반드시 구현해야 하는 초기화 메서드 중 한다.
     }
-    
+}
+
+extension OrderSummaryViewCell {
     private func setupCellUI() {
         
         // 컨테이너 뷰 설정
@@ -131,6 +135,24 @@ class OrderSummaryViewCell: UICollectionViewCell {
     }
 }
 
+extension OrderSummaryViewCell {
+    private func setupActions() {
+            minusButton.addTarget(self, action: #selector(decreaseQuantity), for: .touchUpInside)
+            plusButton.addTarget(self, action: #selector(increaseQuantity), for: .touchUpInside)
+        }
+
+        @objc private func decreaseQuantity() {
+            guard let menuTitle = menu?.title else { return }
+            OrderManager.shared.decreaseMenu(menuTitle)
+            NotificationCenter.default.post(name: .orderUpdated, object: nil) // 상태 업데이트 알림
+        }
+
+        @objc private func increaseQuantity() {
+            guard let menu = menu else { return }
+            OrderManager.shared.addMenu(menu)
+            NotificationCenter.default.post(name: .orderUpdated, object: nil) // 상태 업데이트 알림
+        }
+}
 
 #Preview("MenuSelectionHandler") {
     //뷰 컨트롤러 생성

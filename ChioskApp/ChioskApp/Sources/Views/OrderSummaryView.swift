@@ -13,35 +13,48 @@ let cellID = "OrderCell" // 컬렉션 뷰 셀의 재사용을 위한 식별자 �
 
 class OrderSummaryView: UIView, UICollectionViewDataSource, UICollectionViewDelegate {
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI() // UI 구성 메서드 호출
+        setupButtons() // 버튼 구성 메서드 호출
+        
+        // 주문 상태 변경 알림 등록
+        NotificationCenter.default.addObserver(self, selector: #selector(updateOrderData), name: .orderUpdated, object: nil)
+        
+        // 컬렉션 뷰의 델리게이트 및 데이터소스 설정
+        collectionView.delegate = self
+        collectionView.dataSource = self
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // 섹션당 아이템 수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2 // 2개의 이미지 반환
+        return OrderManager.shared.orders.count
     }
-    
+
     // 셀 구성 메서드
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // 컬렉션 뷰에서 재사용 가능한 셀을 가져온다.
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! OrderSummaryViewCell
-        return cell // 구성된 셀 반환
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? OrderSummaryViewCell else {
+            return UICollectionViewCell()
+        }
+        let order = OrderManager.shared.orders[indexPath.row]
+        cell.menu = order.menu
+        cell.quantityLabel.text = "\(order.quantity)"
+        return cell
+    }
+
+    // 주문 데이터 업데이트
+    @objc private func updateOrderData() {
+        collectionView.reloadData()
+        itemQuantityLabel.text = "\(OrderManager.shared.orders.count)개"
+        amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
     }
 
     private var entireView = UIView() // 주문 하단 전체 뷰
-    
-    // 주문 내역 데이터 배열 생성
-    private var orderList = [
-        (
-            image: UIImage(named: "chicken1"), // 첫번째 치킨 이미지
-            name: "후라이드1", // 첫번째 치킨 이름
-            price: "25,000원", // 첫번째 치킨 가격
-            quantity: 1 // 첫번째 치킨 초기 수량
-        ),
-        (
-            image: UIImage(named: "chicken2"), // 두번째 치킨 이미지
-            name: "후라이드2", // 두번째 치킨 이름
-            price: "25,000원", // 두번째 치킨 가격
-            quantity: 1 // 두번째 치킨 초기 수량
-        ),
-    ]
     
     // 레이블 정의
     private let itemQuantityLabel = UILabel()  // 총 수량 표시
@@ -56,31 +69,14 @@ class OrderSummaryView: UIView, UICollectionViewDataSource, UICollectionViewDele
     // 컬렉션 뷰 정의
     let collectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout() // 레이아웃 정의
-        let cv = UICollectionView(
-            frame: .zero, collectionViewLayout: flowlayout)
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: flowlayout)
         flowlayout.scrollDirection = .vertical // 세로 스크롤
         flowlayout.itemSize = CGSize(width: 160, height: 160) // 셀 크기 설정
         flowlayout.minimumLineSpacing = 9 // 셀 간의 간격 설정
         return cv
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI() // UI 구성 메서드 호출
-        setupButtons() // 버튼 구성 메서드 호출
-        
-        // 컬렉션 뷰의 델리게이트 및 데이터소스 설정
-        collectionView.delegate = self
-        collectionView.dataSource = self
-    }
-    
-    required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented") // 서브 클래싱할 때 반드시 구현해야 하는 초기화 메서드 중 한다.
-        }
-
-    
     private func setupUI() {
-        
         backgroundColor = .white // 기본 배경을 흰색으로 설정
     
         // 하단 전체 뷰 설정
@@ -91,7 +87,7 @@ class OrderSummaryView: UIView, UICollectionViewDataSource, UICollectionViewDele
         // 하단 전체 뷰 레이아웃
         entireView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview() // 좌우 및 하단 고정
-            $0.height.equalTo(300) // 높이는 326으로 설정
+            $0.height.equalTo(300) // 높이는 300으로 설정
         }
         
         // 컬렉션 뷰 설정
@@ -133,12 +129,12 @@ class OrderSummaryView: UIView, UICollectionViewDataSource, UICollectionViewDele
         }
         
         // 금액 표시 레이블 설정
-        amountValueLabel.text = "50,000원" // 초기 금액 설정
+        amountValueLabel.text = "0원" // 초기 금액 설정
         amountValueLabel.textColor = .chioskPrimary // 텍스트 색상은 chioskPrimary 설정
         amountValueLabel.font = .boldSystemFont(ofSize: 25) // 폰트 사이즈 25, 폰트 타입은 시스템 폰트
         entireView.addSubview(amountValueLabel) // 금액 레이블 추가
         
-        // 금액 표시 레이블 레이아웃
+        // 금액 표시 레이아웃
         amountValueLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-30) // 오른쪽에서 간격 30
             $0.centerY.equalTo(totalAmountLabel) // 합계 레이블과 세로 중앙 정렬
@@ -147,56 +143,59 @@ class OrderSummaryView: UIView, UICollectionViewDataSource, UICollectionViewDele
     
     private func setupButtons() {
         // 직원 호출 버튼 설정
-        employeeCallButton.setTitle("직원호출", for: .normal) // 텍스트 설정
-        employeeCallButton.backgroundColor = .systemGray4 // 배경색 설정
-        employeeCallButton.layer.cornerRadius = 10 // 모서리 10만큼 둥글게 설정
-        employeeCallButton.setTitleColor(.black, for: .normal) // 텍스트 색상은 검정색 설정
-        employeeCallButton.titleLabel?.font = .boldSystemFont(ofSize: 16) // 폰트 사이즈 16, 폰트 타입은 시스템 폰트
-        entireView.addSubview(employeeCallButton) // 직원호출 버튼 추가
+        employeeCallButton.setTitle("직원호출", for: .normal)
+        employeeCallButton.backgroundColor = .systemGray4
+        employeeCallButton.layer.cornerRadius = 10
+        employeeCallButton.setTitleColor(.black, for: .normal)
+        employeeCallButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        entireView.addSubview(employeeCallButton)
         
-        // 직원 호출 버튼 레이아웃
         employeeCallButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(33) // 왼쪽 간격 33
-            $0.bottom.equalToSuperview().inset(48) // 아래쪽에서 간격 48
-            $0.width.equalTo(100) // 버튼 너비 100
-            $0.height.equalTo(50) // 버튼 높이 50
+            $0.leading.equalToSuperview().inset(33)
+            $0.bottom.equalToSuperview().inset(48)
+            $0.width.equalTo(100)
+            $0.height.equalTo(50)
         }
         
         // 취소 버튼 설정
-        cancelButton.setTitle("취소하기", for: .normal) // 텍스트 설정
-        cancelButton.backgroundColor = .systemGray4 // 배경색 회색 설정
-        cancelButton.layer.cornerRadius = 10 // 모서리 10만큼 둥글게 설정
-        cancelButton.setTitleColor(.black, for: .normal) // 텍스트 색상 검정색 설정
-        cancelButton.titleLabel?.font = .boldSystemFont(ofSize: 16) // 폰트 사이즈 16, 폰트 타입은 시스템 폰트
-        entireView.addSubview(cancelButton) // 취소하기 버튼 추가
+        cancelButton.setTitle("취소하기", for: .normal)
+        cancelButton.backgroundColor = .systemGray4
+        cancelButton.layer.cornerRadius = 10
+        cancelButton.setTitleColor(.black, for: .normal)
+        cancelButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        entireView.addSubview(cancelButton)
         
-        // 취소 버튼 레이아웃
         cancelButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview() // 수평 중앙 정렬
-            $0.bottom.equalToSuperview().inset(48) // 아래쪽에서 간격 48
-            $0.width.equalTo(100) // 버튼 너비 100
-            $0.height.equalTo(50) // 버튼 높이 50
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(48)
+            $0.width.equalTo(100)
+            $0.height.equalTo(50)
         }
         
         // 결제 버튼 설정
-        paymentButton.setTitle("결제하기", for: .normal) // 텍스트 설정
-        paymentButton.backgroundColor = .systemRed // 배경색 빨간색으로 설정.
-        paymentButton.layer.cornerRadius = 10 // 모서리는 10만큼 둥글게 설정
-        paymentButton.setTitleColor(.white, for: .normal) // 텍스트 색상은 하얀색 설정
-        paymentButton.titleLabel?.font = .boldSystemFont(ofSize: 16) // 폰트 사이즈는 16, 폰트 타입은 시스템 폰트
-        entireView.addSubview(paymentButton) // 결제하기 버튼 추가
+        paymentButton.setTitle("결제하기", for: .normal)
+        paymentButton.backgroundColor = .systemRed
+        paymentButton.layer.cornerRadius = 10
+        paymentButton.setTitleColor(.white, for: .normal)
+        paymentButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        paymentButton.addTarget(self, action: #selector(handlePayment), for: .touchUpInside)
+        entireView.addSubview(paymentButton)
         
-        // 결제 버튼 레이아웃
         paymentButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(33) // 오른쪽에서 간격 33
-            $0.bottom.equalToSuperview().inset(48) // 아래쪽에서 간격 48
-            $0.width.equalTo(100) // 버튼의 너비 100
-            $0.height.equalTo(50) // 버튼의 높이 50
+            $0.trailing.equalToSuperview().inset(33)
+            $0.bottom.equalToSuperview().inset(48)
+            $0.width.equalTo(100)
+            $0.height.equalTo(50)
         }
     }
-}
 
-#Preview("MenuSelectionHandler") {
-    //뷰 컨트롤러 생성
-    OrderSummaryView()
-}
+    @objc private func handlePayment() {
+        if OrderManager.shared.orders.isEmpty {
+            print("주문 내역이 없습니다.") // 예외 처리
+            return
+        }
+        
+        let totalAmount = OrderManager.shared.totalAmount
+        print("결제 완료: \(totalAmount)원")
+        
+        // 결제 완료
