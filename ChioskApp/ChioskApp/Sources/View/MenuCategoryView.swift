@@ -12,7 +12,7 @@ import Then
 class MenuCategoryView {
     
     //MARK: SegmentedControl 구현
-    let segmentControl = TestSegment(items: ["치킨", "사이드", "음료", "기타"]).then {
+    let segmentControl = MenuCategorySegmentedControl(items: ["치킨", "사이드", "음료", "기타"]).then {
         $0.selectedSegmentIndex = 0
         $0.backgroundColor = .clear
         $0.selectedSegmentTintColor = .clear
