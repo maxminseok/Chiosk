@@ -11,7 +11,7 @@ import UIKit
 
 let cellID = "OrderCell" // 컬렉션 뷰 셀의 재사용을 위한 식별자 설정
 
-class OrderSummaryView: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class OrderSummaryView: UIView, UICollectionViewDataSource, UICollectionViewDelegate {
 
     // 섹션당 아이템 수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -64,29 +64,34 @@ class OrderSummaryView: UIViewController, UICollectionViewDataSource, UICollecti
         return cv
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI() // UI 설정
-        setupButtons() // 버튼 설정
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI() // UI 구성 메서드 호출
+        setupButtons() // 버튼 구성 메서드 호출
         
-        // 델리게이트 및 데이터소스 설정
+        // 컬렉션 뷰의 델리게이트 및 데이터소스 설정
         collectionView.delegate = self
         collectionView.dataSource = self
     }
     
+    required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented") // 서브 클래싱할 때 반드시 구현해야 하는 초기화 메서드 중 한다.
+        }
+
+    
     private func setupUI() {
         
-        view.backgroundColor = .white // 기본 배경을 흰색으로 설정
+        backgroundColor = .white // 기본 배경을 흰색으로 설정
     
         // 하단 전체 뷰 설정
         entireView.backgroundColor = .systemGray6 // 배경색 시스템 회색
         entireView.layer.cornerRadius = 10 // 모서리를 둥글게 설정
-        view.addSubview(entireView) // 뷰에 추가하여 표시
+        addSubview(entireView) // 뷰에 추가하여 표시
         
         // 하단 전체 뷰 레이아웃
         entireView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview() // 좌우 및 하단 고정
-            $0.height.equalTo(326) // 높이는 326으로 설정
+            $0.height.equalTo(300) // 높이는 326으로 설정
         }
         
         // 컬렉션 뷰 설정
