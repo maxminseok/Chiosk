@@ -11,18 +11,18 @@ import SnapKit
 import Then
 
 class MainViewController: UIViewController {
-    
-    
-    let menuCategoryViews = MenuCategoryView()
+
+    let menuCategoryViews = MenuCategoryView() // 메뉴 카테고리 뷰
+    let orderSummaryView = OrderSummaryView()  // 주문 요약 뷰
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureUI()
-        segmentChanged(menuCategoryViews.segmentControl) //SegmentedControl
+        segmentChanged(menuCategoryViews.segmentControl) // 초기 SegmentedControl 선택
     }
-   
-    //MARK: 로고, SegmentedControl, Place Holder
+
+    // MARK: 로고, SegmentedControl, Place Holder, OrderSummaryView 추가
     func configureUI() {
         view.backgroundColor = .white
         
@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
             $0.leading.trailing.equalToSuperview()
         }
         
-        //MARK: SegmentedControl
+        // MARK: SegmentedControl
         view.addSubview(menuCategoryViews.segmentControl)
         menuCategoryViews.segmentControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
         menuCategoryViews.segmentControl.snp.makeConstraints {
@@ -53,13 +53,19 @@ class MainViewController: UIViewController {
                 $0.top.equalTo(menuCategoryViews.segmentControl.snp.bottom)
             }
         }
-    
+        
+        // MARK: 주문 요약 뷰 추가
+        view.addSubview(orderSummaryView)
+        orderSummaryView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview() // 화면 하단에 고정
+            $0.height.equalTo(300) // 주문 요약 뷰 높이 설정
+        }
     }
-    
-    //MARK: 클릭 시 뷰 변경되는 로직
+
+    // MARK: 클릭 시 뷰 변경되는 로직
     @objc func segmentChanged(_ sender: UISegmentedControl) {
         [menuCategoryViews.chickenView, menuCategoryViews.sidedishView, menuCategoryViews.drinkView, menuCategoryViews.etcView].forEach {
-            $0.isHidden = true // 해당 뷰 제외 나머지는 안보이게 숨김.
+            $0.isHidden = true // 해당 뷰 제외 나머지는 안보이게 숨김
         }
         
         switch sender.selectedSegmentIndex {
@@ -75,11 +81,7 @@ class MainViewController: UIViewController {
             break
         }
     }
-    
-    
 }
-
-
 
 #Preview("MainViewController") {
     MainViewController()
