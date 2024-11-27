@@ -19,10 +19,21 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical // 세로 스크롤
-        layout.minimumLineSpacing = 24 // 세로 간격
-        layout.minimumInteritemSpacing = 20 // 가로 간격
+        layout.minimumLineSpacing = 4 // 세로 간격
+        layout.minimumInteritemSpacing = 4 // 가로 간격
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
+    
+    // 초기화 메서드 - 컬렉션 뷰를 뷰에 추가
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupCollectionView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupCollectionView()
+    }
     
     // 셀 개수 반환
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -59,18 +70,18 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         return CGSize(width: width, height: height)
     }
     
-    func setupCollectionView(_ viewController: UIViewController) {
+    func setupCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(MenuListViewCell.self, forCellWithReuseIdentifier: "MenuListViewCell")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        viewController.view.addSubview(collectionView)
+        addSubview(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: viewController.view.topAnchor, constant: 200),
-            collectionView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor, constant: 27),
-            collectionView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor, constant: -27),
-            collectionView.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor, constant: -329)
+            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
     
