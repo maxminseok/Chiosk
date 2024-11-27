@@ -35,7 +35,7 @@ class MenuListViewController: UIViewController, UICollectionViewDelegateFlowLayo
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        menuListView.menuData = menuList.menuCategory1
+        menuListView.menuData = menuList.menuCategories["치킨", default: []]
 
         setupCollectionView()
     }
