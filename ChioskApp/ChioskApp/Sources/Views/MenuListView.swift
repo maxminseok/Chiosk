@@ -15,6 +15,8 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         }
     }
     
+    weak var delegate: MenuListViewDelegate? // Delegate 추가
+    
     // 컬렉션 뷰 정의
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -53,6 +55,11 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         cell.price.text = item.price // 가격 label 설정
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedMenu = menuData[indexPath.row]
+        delegate?.menuListView(self, didSelectMenu: selectedMenu) // Delegate 호출
     }
     
     // 셀 레이아웃 설정
