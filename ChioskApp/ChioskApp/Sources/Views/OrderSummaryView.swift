@@ -28,12 +28,11 @@ class OrderSummaryView: UIView {
     
     // 컬렉션 뷰 정의
     let collectionView: UICollectionView = {
-        let flowlayout = UICollectionViewFlowLayout() // 레이아웃 정의
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: flowlayout)
-        flowlayout.scrollDirection = .vertical // 세로 스크롤
+        let flowlayout = UICollectionViewFlowLayout()
+        flowlayout.scrollDirection = .horizontal // 가로 스크롤 설정
+        flowlayout.minimumLineSpacing = 9 // 셀 간 간격
         flowlayout.itemSize = CGSize(width: 160, height: 160) // 셀 크기 설정
-        flowlayout.minimumLineSpacing = 9 // 셀 간의 간격 설정
-        return cv
+        return UICollectionView(frame: .zero, collectionViewLayout: flowlayout)
     }()
     
     // MARK: - Initializer
@@ -62,8 +61,7 @@ extension OrderSummaryView {
         
         // 하단 전체 뷰 레이아웃
         entireView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview() // 좌우 및 하단 고정
-            $0.height.equalTo(300) // 높이는 300으로 설정
+            $0.leading.trailing.top.bottom.equalToSuperview() // 뷰 전체를 채움
         }
         
         // 컬렉션 뷰 설정
@@ -74,7 +72,8 @@ extension OrderSummaryView {
         collectionView.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(100) // 하단 간격 100
             $0.top.equalToSuperview().inset(59) // 상단 간격 59
-            $0.leading.trailing.equalToSuperview().inset(33) // 좌우 간격 33
+            $0.leading.equalToSuperview().inset(33) // 왼쪽 간격 33
+            $0.trailing.equalToSuperview() // 오른쪽 간격 0
         }
         
         // 셀 등록

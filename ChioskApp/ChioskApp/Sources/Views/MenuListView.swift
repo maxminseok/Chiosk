@@ -47,12 +47,11 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuListViewCell", for: indexPath) as? MenuListViewCell else {
             return UICollectionViewCell()
         }
-        
         // 이미지 및 텍스트 설정
         let item = menuData[indexPath.row]
-        cell.imageView.image = UIImage(named: item.image) // 이미지 파일 설정
-        cell.name.text = item.title // 이름 label 설정
-        cell.price.text = item.price // 가격 label 설정
+        cell.imageView.image = UIImage(named: item.image)
+        cell.name.text = item.title
+        cell.price.text = item.price
         
         return cell
     }
@@ -64,20 +63,14 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     
     // 셀 레이아웃 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemPerRow: CGFloat = 3 // 가로로 배치할 셀 개수
-        
-        // 셀 간격의 합
-        let totalHorizonSpacing = (itemPerRow - 1) * 21
-        
-        // 셀 크기 설정
-        //간격(totalSpacing)이 커질수록 셀의 크기가 작아짐
-        let width = (collectionView.frame.width - totalHorizonSpacing) / itemPerRow
-        let height = width * 1.5
-        
-        return CGSize(width: width, height: height)
+        let itemsPerRow: CGFloat = 3 // 가로에 배치할 셀 개수
+        let spacing: CGFloat = 10 // 셀 간 간격
+        let totalSpacing = (itemsPerRow - 1) * spacing // 전체 간격
+        let width = (collectionView.frame.width - totalSpacing) / itemsPerRow // 간격이 커질수록 셀의 크기 작아짐
+        return CGSize(width: width, height: width * 1.2) // 세로 크기를 비율로 설정
     }
     
-    func setupCollectionView() {
+    private func setupCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(MenuListViewCell.self, forCellWithReuseIdentifier: "MenuListViewCell")
@@ -85,17 +78,14 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         
         addSubview(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
 }
-
 
 #Preview {
     MainViewController()
 }
-
