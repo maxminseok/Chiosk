@@ -12,7 +12,7 @@ import Then
 
 class MainViewController: UIViewController {
 
-    let menuListNavigator = MenuListNavigatorVC()
+    let menuListNavigator = MenuListNavigator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
