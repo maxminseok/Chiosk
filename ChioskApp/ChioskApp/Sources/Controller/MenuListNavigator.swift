@@ -35,7 +35,7 @@ class MenuListNavigator: UIViewController {
         $0.text = "CHIOSK"
         $0.textColor = .white
         $0.textAlignment = .center
-        $0.font = UIFont.boldSystemFont(ofSize: 30)
+        $0.font = UIFont(name: "ProtestRiot-Regular", size: 36)
     }
 
     
