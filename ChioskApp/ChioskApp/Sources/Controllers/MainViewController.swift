@@ -105,6 +105,7 @@ extension MainViewController {
     }
 }
 
+// MARK: 메뉴 추가 로직
 extension MainViewController {
     func menuListView(_ menuListView: MenuListView, didSelectMenu menu: (image: String, title: String, price: String)) {
         // 메뉴를 OrderManager에 추가
@@ -124,3 +125,37 @@ extension MainViewController {
         print("선택된 메뉴: \(menu.title), 가격: \(menu.price)")
     }
 }
+
+extension MainViewController {
+    @objc private func handleCancelOrder() {
+        // UIAlertController로 사용자 확인
+        let alert = UIAlertController(
+            title: "주문 취소",
+            message: "정말로 주문을 취소하시겠습니까?",
+            preferredStyle: .alert
+        )
+
+        // "확인" 버튼 액션
+        let confirmAction = UIAlertAction(title: "확인", style: .destructive) { _ in
+            // 주문 취소 로직 수행
+            if OrderManager.shared.orders.isEmpty {
+                print("취소할 주문 내역이 없습니다.")
+            } else {
+                print("주문이 취소되었습니다.")
+                OrderManager.shared.resetOrders()
+                NotificationCenter.default.post(name: .orderUpdated, object: nil)
+            }
+        }
+
+        // "취소" 버튼 액션
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+
+        // 액션 추가
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+
+        // Alert 뷰를 표시
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
