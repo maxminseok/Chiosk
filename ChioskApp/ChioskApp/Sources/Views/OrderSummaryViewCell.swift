@@ -59,6 +59,13 @@ extension OrderSummaryViewCell {
             $0.edges.equalToSuperview() // 셀의 전체 영역을 채우도록 설정
         }
         
+        // 컨테이너 뷰 그림자 설정
+        layer.shadowColor = UIColor.black.cgColor // 그림자 색상
+        layer.shadowOpacity = 0.2 // 그림자 투명도
+        layer.shadowOffset = CGSize(width: 0, height: 4)
+        layer.shadowRadius = 4 // 그림자 흐림 정도
+        layer.masksToBounds = false // 그림자가 잘리지 않도록 설정
+        
         // 치킨 이미지 뷰 설정
         chickenImageView.image = UIImage(named: "Chickens_Fried") // 기본 이미지 설정
         chickenImageView.backgroundColor = .white // 배경색 흰색
@@ -169,7 +176,7 @@ extension OrderSummaryViewCell {
         }
 }
 
-#Preview("MenuSelectionHandler") {
-    //뷰 컨트롤러 생성
-    OrderSummaryView()
+// 그림자 구현으로 인해 확인하면서 작업을 하고 싶어서 메서드 호출.
+#Preview("MainViewController") {
+    MainViewController()
 }
