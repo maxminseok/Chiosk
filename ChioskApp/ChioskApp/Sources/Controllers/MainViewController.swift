@@ -27,6 +27,17 @@ class MainViewController: UIViewController, MenuListViewDelegate {
         menuCategoryViews.sidedishMenu.delegate = self
         menuCategoryViews.drinkMenu.delegate = self
         menuCategoryViews.etcMenu.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(showAlert(notification:)), name: .showAlert, object: nil)
+    }
+    
+    @objc private func showAlert(notification: Notification) {
+        if let message = notification.object as? String {
+            let alert = UIAlertController(title: "경고", message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
+        }
     }
 }
 
@@ -97,7 +108,14 @@ extension MainViewController {
 extension MainViewController {
     func menuListView(_ menuListView: MenuListView, didSelectMenu menu: (image: String, title: String, price: String)) {
         // 메뉴를 OrderManager에 추가
-        OrderManager.shared.addMenu(menu)
+        let success = OrderManager.shared.addMenu(menu)
+        if !success {
+            // 경고 창 표시
+            let alert = UIAlertController(title: "경고", message: "주문 금액 한도는 1,000,000원 입니다.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
+        }
 
         // 상태 업데이트
         NotificationCenter.default.post(name: .orderUpdated, object: nil)
@@ -106,4 +124,3 @@ extension MainViewController {
         print("선택된 메뉴: \(menu.title), 가격: \(menu.price)")
     }
 }
-

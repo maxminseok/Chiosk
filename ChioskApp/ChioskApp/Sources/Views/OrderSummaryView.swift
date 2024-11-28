@@ -32,7 +32,9 @@ class OrderSummaryView: UIView {
         flowlayout.scrollDirection = .horizontal // 가로 스크롤 설정
         flowlayout.minimumLineSpacing = 9 // 셀 간 간격
         flowlayout.itemSize = CGSize(width: 160, height: 160) // 셀 크기 설정
-        return UICollectionView(frame: .zero, collectionViewLayout: flowlayout)
+        let view = UICollectionView(frame: .zero, collectionViewLayout: flowlayout)
+        view.showsHorizontalScrollIndicator = false // 스크롤바 숨기기
+        return view
     }()
     
     // MARK: - Initializer

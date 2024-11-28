@@ -152,21 +152,24 @@ extension OrderSummaryViewCell {
 
 extension OrderSummaryViewCell {
     private func setupActions() {
-            minusButton.addTarget(self, action: #selector(decreaseQuantity), for: .touchUpInside)
-            plusButton.addTarget(self, action: #selector(increaseQuantity), for: .touchUpInside)
+        minusButton.addTarget(self, action: #selector(decreaseQuantity), for: .touchUpInside)
+        plusButton.addTarget(self, action: #selector(increaseQuantity), for: .touchUpInside)
+    }
+    
+    @objc private func decreaseQuantity() {
+        guard let menuTitle = menu?.title else { return }
+        OrderManager.shared.decreaseMenu(menuTitle)
+        NotificationCenter.default.post(name: .orderUpdated, object: nil) // 상태 업데이트 알림
+    }
+    
+    @objc private func increaseQuantity() {
+        guard let menu = menu else { return }
+        let success = OrderManager.shared.addMenu(menu)
+        if !success {
+            NotificationCenter.default.post(name: .showAlert, object: "주문 금액 한도는 1,000,000원 입니다.")
         }
-
-        @objc private func decreaseQuantity() {
-            guard let menuTitle = menu?.title else { return }
-            OrderManager.shared.decreaseMenu(menuTitle)
-            NotificationCenter.default.post(name: .orderUpdated, object: nil) // 상태 업데이트 알림
-        }
-
-        @objc private func increaseQuantity() {
-            guard let menu = menu else { return }
-            OrderManager.shared.addMenu(menu)
-            NotificationCenter.default.post(name: .orderUpdated, object: nil) // 상태 업데이트 알림
-        }
+        NotificationCenter.default.post(name: .orderUpdated, object: nil) // 상태 업데이트 알림
+    }
 }
 
 #Preview("MenuSelectionHandler") {
