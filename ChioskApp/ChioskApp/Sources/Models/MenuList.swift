@@ -30,10 +30,10 @@ struct MenuList {
             (image: "SideDishes_PotatoWedges", title: "웨지감자", price: "5,000"),
         ],
         "음료": [
-            (image: "Beverages_CocaCola355", title: "코카콜라 355mL", price: "2,000"),
-            (image: "Beverages_CocaColaZero355", title: "코카콜라제로 355mL", price: "2,000"),
-            (image: "Beverages_Sprite355", title: "스프라이트 355mL", price: "2,000"),
-            (image: "Beverages_SpriteZero355", title: "스프라이트제로 355mL", price: "2,000"),
+            (image: "Beverages_CocaCola355", title: "코카콜라", price: "2,000"),
+            (image: "Beverages_CocaColaZero355", title: "코카콜라제로", price: "2,000"),
+            (image: "Beverages_Sprite355", title: "스프라이트", price: "2,000"),
+            (image: "Beverages_SpriteZero355", title: "스프라이트제로", price: "2,000"),
         ],
         "기타": [
             (image: "Others_HoneyMustardSauce", title: "허니머스타드소스", price: "1,000"),
