@@ -66,13 +66,9 @@ class MenuCategoryView {
         // 레이아웃 설정
         let views = [chickenMenu, sidedishMenu, drinkMenu, etcMenu]
         views.forEach { menu in
-            menu.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                menu.topAnchor.constraint(equalTo: menu.superview!.topAnchor),
-                menu.leadingAnchor.constraint(equalTo: menu.superview!.leadingAnchor),
-                menu.trailingAnchor.constraint(equalTo: menu.superview!.trailingAnchor),
-                menu.bottomAnchor.constraint(equalTo: menu.superview!.bottomAnchor)
-            ])
+            menu.snp.makeConstraints {
+                $0.top.bottom.leading.trailing.equalToSuperview()
+            }
         }
     }
 }
