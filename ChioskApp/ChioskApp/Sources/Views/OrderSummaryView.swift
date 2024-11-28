@@ -252,7 +252,3 @@ extension OrderSummaryView {
         amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
     }
 }
-
-#Preview("MainViewController") {
-    MainViewController()
-}
