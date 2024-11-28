@@ -72,10 +72,10 @@ class MenuCategoryView {
     /// 메뉴 데이터를 카테고리별로 설정
     private func setUpMenus() {
         // 카테고리별 데이터 설정
-        chickenMenu.menuData = menuList.menuCategories["치킨", default: []]
-        sidedishMenu.menuData = menuList.menuCategories["사이드", default: []]
-        drinkMenu.menuData = menuList.menuCategories["음료", default: []]
-        etcMenu.menuData = menuList.menuCategories["기타", default: []]
+        chickenMenu.setMenuData(menuList.menuCategories["치킨", default: []])
+        sidedishMenu.setMenuData(menuList.menuCategories["사이드", default: []])
+        drinkMenu.setMenuData( menuList.menuCategories["음료", default: []])
+        etcMenu.setMenuData(menuList.menuCategories["기타", default: []])
         
         // 메뉴 리스트 뷰를 각 카테고리 뷰에 추가
         chickenView.addSubview(chickenMenu)
