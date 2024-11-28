@@ -129,6 +129,12 @@ extension MainViewController {
 
 extension MainViewController {
     @objc private func handleCancelOrder() {
+        // 주문 내역이 비어있는지 확인
+        guard !OrderManager.shared.orders.isEmpty else {
+            print("취소할 주문 내역이 없습니다.")
+            return
+        }
+        
         // UIAlertController로 사용자 확인
         let alert = UIAlertController(
             title: "주문 취소",
