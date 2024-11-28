@@ -31,15 +31,6 @@ class MainViewController: UIViewController, MenuListViewDelegate {
         
         orderSummaryView.cancelButton.addTarget(self, action: #selector(handleCancelOrder), for: .touchUpInside)
     }
-    
-    @objc private func showAlert(notification: Notification) {
-        if let message = notification.object as? String {
-            let alert = UIAlertController(title: "경고", message: message, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-            alert.addAction(okAction)
-            present(alert, animated: true, completion: nil)
-        }
-    }
 }
 
 // MARK: 로고, SegmentedControl, Place Holder, OrderSummaryView 추가
@@ -187,5 +178,14 @@ extension MainViewController {
         orderSummaryView.collectionView.reloadData()
         orderSummaryView.itemQuantityLabel.text = "\(OrderManager.shared.totalQuantity)개" // 총 주문 수량으로 변경
         orderSummaryView.amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
+    }
+    
+    @objc private func showAlert(notification: Notification) {
+        if let message = notification.object as? String {
+            let alert = UIAlertController(title: "경고", message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
+        }
     }
 }
