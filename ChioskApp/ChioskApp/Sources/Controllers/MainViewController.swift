@@ -12,15 +12,12 @@ import Then
 
 class MainViewController: UIViewController, MenuListViewDelegate {
     
-
     let menuCategoryViews = MenuCategoryView() // 메뉴 카테고리 뷰
     let orderSummaryView = OrderSummaryView()  // 주문 요약 뷰
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureUI()
         segmentChanged(menuCategoryViews.segmentControl) // 초기 SegmentedControl 선택
         
@@ -40,12 +37,26 @@ class MainViewController: UIViewController, MenuListViewDelegate {
             present(alert, animated: true, completion: nil)
         }
     }
+    
+    //MARK: 직원호출 Alert
+    @objc func callAlert() {
+        let alert = UIAlertController(title: "직원 호출", message: "직원을 호출하시겠습니까?", preferredStyle: .alert)
+        let yes = UIAlertAction(title: "호출", style: .default, handler: nil)
+        let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+        
+        alert.addAction(yes)
+        alert.addAction(cancel)
+        present(alert, animated: true)
+    }
 }
 
 // MARK: 로고, SegmentedControl, Place Holder, OrderSummaryView 추가
 extension MainViewController {
     func configureUI() {
         view.backgroundColor = .white
+        
+        //직원 호출 Alert을 위한 버튼액션
+        orderSummaryView.employeeCallButton.addTarget(self, action: #selector(callAlert), for: .touchUpInside)
         
         // MARK: 상단 로고
         view.addSubview(menuCategoryViews.logo)
@@ -81,6 +92,10 @@ extension MainViewController {
             $0.leading.trailing.bottom.equalToSuperview() // 화면 하단에 고정
             $0.height.equalTo(342) // 주문 요약 뷰 높이 설정
         }
+        
+        // 테스트
+        //Alert을 위한 버튼액션
+        //orderSummaryView.setupButtons.addTarget(self, action: #selector(callAlert), for: .touchUpInside)
     }
 }
 
@@ -124,4 +139,5 @@ extension MainViewController {
         // 디버깅 출력
         print("선택된 메뉴: \(menu.title), 가격: \(menu.price)")
     }
+
 }
