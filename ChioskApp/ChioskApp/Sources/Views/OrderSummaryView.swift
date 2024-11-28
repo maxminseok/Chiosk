@@ -128,6 +128,12 @@ extension OrderSummaryView {
         employeeCallButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         entireView.addSubview(employeeCallButton)
         
+        // 직원 호출 버튼 그림자 설정
+        employeeCallButton.layer.shadowColor = UIColor.black.cgColor
+        employeeCallButton.layer.shadowOpacity = 0.4
+        employeeCallButton.layer.shadowOffset = CGSize(width: -3, height: 3)
+        employeeCallButton.layer.shadowRadius = 4
+        
         employeeCallButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(33)
             $0.bottom.equalToSuperview().inset(48)
@@ -142,6 +148,12 @@ extension OrderSummaryView {
         cancelButton.setTitleColor(.black, for: .normal)
         cancelButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         entireView.addSubview(cancelButton)
+        
+        // 취소 버튼 그림자 설정
+        cancelButton.layer.shadowColor = UIColor.black.cgColor
+        cancelButton.layer.shadowOpacity = 0.4
+        cancelButton.layer.shadowOffset = CGSize(width: -3, height: 4)
+        cancelButton.layer.shadowRadius = 4
         
         cancelButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
@@ -158,6 +170,12 @@ extension OrderSummaryView {
         paymentButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         paymentButton.addTarget(self, action: #selector(handlePayment), for: .touchUpInside)
         entireView.addSubview(paymentButton)
+        
+        // 결제 버튼 그림자 추가
+        paymentButton.layer.shadowColor = UIColor.black.cgColor
+        paymentButton.layer.shadowOpacity = 0.4
+        paymentButton.layer.shadowOffset = CGSize(width: -3, height: 4)
+        paymentButton.layer.shadowRadius = 4
         
         paymentButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(33)
@@ -220,4 +238,8 @@ extension OrderSummaryView {
         itemQuantityLabel.text = "\(OrderManager.shared.totalQuantity)개" // 총 주문 수량으로 변경
         amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
     }
+}
+
+#Preview("MainViewController") {
+    MainViewController()
 }
