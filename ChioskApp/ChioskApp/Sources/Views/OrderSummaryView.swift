@@ -217,7 +217,7 @@ extension OrderSummaryView {
     
     @objc private func updateOrderData() {
         collectionView.reloadData()
-        itemQuantityLabel.text = "\(OrderManager.shared.orders.count)개"
+        itemQuantityLabel.text = "\(OrderManager.shared.totalQuantity)개" // 총 주문 수량으로 변경
         amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
     }
 }
