@@ -16,12 +16,7 @@ class MenuCategoryView {
         $0.selectedSegmentIndex = 0
         $0.backgroundColor = .clear
         $0.selectedSegmentTintColor = .clear
-        //$0.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
-        //$0.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)//Divider(칸막이)제거
     }
-    // 클릭했을 때, 뷰를 변환되게 하는 메소드. 클릭 액션 메소드. 이것에 대한 로직을 이제 함수로 구현해야함
-    // 초기 뷰를 선언해야함.
-    
     
     //MARK: 상단 로고
     let logo = UILabel().then {
