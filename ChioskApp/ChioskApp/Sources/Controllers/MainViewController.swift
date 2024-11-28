@@ -107,6 +107,3 @@ extension MainViewController {
     }
 }
 
-#Preview("MainViewController") {
-    MainViewController()
-}

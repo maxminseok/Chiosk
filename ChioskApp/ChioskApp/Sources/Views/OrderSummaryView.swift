@@ -49,6 +49,19 @@ class OrderSummaryView: UIView {
     }
 }
 
+private func alert() {
+    let alert = UIAlertController(title: "직원호출", message: "직원을 호출하시겠습니까?", preferredStyle: .alert)
+    let yes = UIAlertAction(title: "호출", style: .default, handler: nil)
+    let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+    
+    alert.addAction(yes)
+    alert.addAction(cancel)
+    
+    //present(alert, animated: true)
+}
+
+
+
 // MARK: - UI Setup
 extension OrderSummaryView {
     private func setupUI() {
