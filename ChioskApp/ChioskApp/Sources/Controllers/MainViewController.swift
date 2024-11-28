@@ -28,7 +28,7 @@ class MainViewController: UIViewController, MenuListViewDelegate {
         menuCategoryViews.drinkMenu.delegate = self
         menuCategoryViews.etcMenu.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(showAlert(notification:)), name: .showAlert, object: nil)
+        orderSummaryView.cancelButton.addTarget(self, action: #selector(handleCancelOrder), for: .touchUpInside)
     }
     
     @objc private func showAlert(notification: Notification) {
