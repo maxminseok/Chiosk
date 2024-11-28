@@ -181,8 +181,3 @@ extension OrderSummaryViewCell {
         NotificationCenter.default.post(name: .orderUpdated, object: nil) // 상태 업데이트 알림
     }
 }
-
-// 그림자 구현으로 인해 확인하면서 작업을 하고 싶어서 메서드 호출.
-#Preview("MainViewController") {
-    MainViewController()
-}

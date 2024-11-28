@@ -147,12 +147,12 @@ extension MainViewController {
         // UIAlertController로 사용자 확인
         let alert = UIAlertController(
             title: "주문 취소",
-            message: "정말로 주문을 취소하시겠습니까?",
+            message: "주문 내역을 모두 취소할까요?",
             preferredStyle: .alert
         )
 
         // "확인" 버튼 액션
-        let confirmAction = UIAlertAction(title: "확인", style: .destructive) { _ in
+        let confirmAction = UIAlertAction(title: "주문 취소", style: .destructive) { _ in
             // 주문 취소 로직 수행
             if OrderManager.shared.orders.isEmpty {
                 print("취소할 주문 내역이 없습니다.")
@@ -163,8 +163,8 @@ extension MainViewController {
             }
         }
 
-        // "취소" 버튼 액션
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        // "돌아가기" 버튼 액션
+        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel, handler: nil)
 
         // 액션 추가
         alert.addAction(confirmAction)

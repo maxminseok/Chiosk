@@ -87,7 +87,3 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         ])
     }
 }
-
-#Preview {
-    MainViewController()
-}
