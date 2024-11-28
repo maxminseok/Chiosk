@@ -62,7 +62,7 @@ extension OrderSummaryViewCell {
         // 컨테이너 뷰 그림자 설정
         layer.shadowColor = UIColor.black.cgColor // 그림자 색상
         layer.shadowOpacity = 0.2 // 그림자 투명도
-        layer.shadowOffset = CGSize(width: 0, height: 4)
+        layer.shadowOffset = CGSize(width: 0, height: 3)
         layer.shadowRadius = 4 // 그림자 흐림 정도
         layer.masksToBounds = false // 그림자가 잘리지 않도록 설정
         
