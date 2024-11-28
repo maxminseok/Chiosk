@@ -8,7 +8,14 @@
 import UIKit
 
 class OrderSummaryViewCell: UICollectionViewCell {
-    var menu: (image: String, title: String, price: String)? // 메뉴 데이터
+    var menu: (image: String, title: String, price: String)? { // 메뉴 데이터
+        didSet {    // 업데이트 되도록 변경
+            guard let menu = menu else { return }
+            chickenImageView.image = UIImage(named: menu.image)
+            goodsLabel.text = menu.title
+            priceLabel.text = menu.price
+        }
+    }
     
     private let containerView = UIView() // 셀 전체 영역을 감싸는 컨테이너 뷰
     private let chickenImageView = UIImageView() // 치킨 이미지 표시할 뷰
