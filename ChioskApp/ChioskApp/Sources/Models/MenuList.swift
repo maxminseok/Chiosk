@@ -3,14 +3,19 @@
 //  ChioskApp
 //
 //  Created on 2024-11-26.
-//  메뉴 카테고리 및 목록 데이터 관리
+//
+//  Description:
+//  - 이 파일은 앱에 표시되는 메뉴 데이터를 관리합니다.
+//  - 각 메뉴는 카테고리별로 나뉘며, 이미지 파일 이름, 메뉴 이름, 가격 정보를 포함합니다.
 //
 
 import UIKit
 
-// 치킨, 사이드, 음료, 기타에 속하는 항목들
+/// `MenuList`
+/// - 치킨, 사이드 메뉴, 음료, 기타 항목의 데이터를 관리하는 구조체입니다.
+/// - `menuCategories` 프로퍼티를 통해 카테고리 이름을 키로 사용하는 딕셔너리로 데이터를 저장합니다.
 struct MenuList {
-    // 메뉴 데이터: 카테고리 이름을 키로 사용
+    /// 카테고리 이름을 키로 사용하는 메뉴 데이터
     let menuCategories: [String: [(image: String, title: String, price: Int)]] = [
         "치킨": [
             (image: "Chickens_Fried", title: "후라이드", price: 21000),
