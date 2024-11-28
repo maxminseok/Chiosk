@@ -8,7 +8,14 @@
 import UIKit
 
 class OrderSummaryViewCell: UICollectionViewCell {
-    var menu: (image: String, title: String, price: String)? // 메뉴 데이터
+    var menu: (image: String, title: String, price: String)? { // 메뉴 데이터
+        didSet {    // 업데이트 되도록 변경
+            guard let menu = menu else { return }
+            chickenImageView.image = UIImage(named: menu.image)
+            goodsLabel.text = menu.title
+            priceLabel.text = menu.price
+        }
+    }
     
     private let containerView = UIView() // 셀 전체 영역을 감싸는 컨테이너 뷰
     private let chickenImageView = UIImageView() // 치킨 이미지 표시할 뷰
@@ -60,29 +67,29 @@ extension OrderSummaryViewCell {
         
         // 이미지 뷰 레이아웃 설정
         chickenImageView.snp.makeConstraints{
-            $0.top.equalToSuperview().inset(12) // 위쪽에서 12 간격
+            $0.top.equalToSuperview().inset(4) // 위쪽에서 12 간격
             $0.centerX.equalToSuperview() // 가로 중심 정렬
-            $0.width.equalTo(65) // 가로 크기
-            $0.height.equalTo(77) // 세로 크기
+            $0.width.equalTo(100) // 가로 크기
+            $0.height.equalTo(80) // 세로 크기
 
         }
         
         // 상품명 레이블 설정
         goodsLabel.text = "후라이드1" // 임시 텍스트
-        goodsLabel.font = .boldSystemFont(ofSize: 10) // 폰트 사이즈 10, 폰트 타입 시스템 폰트
+        goodsLabel.font = .boldSystemFont(ofSize: 14) // 폰트 사이즈 14, 폰트 타입 시스템 폰트
         goodsLabel.textColor = .black // 텍스트 색상 검정색
         goodsLabel.textAlignment = .center // 중앙 정렬
         contentView.addSubview(goodsLabel) // 컨테이너 뷰에 상품명 레이블 추가
         
         // 상품명 레이블 레이아웃 설정
         goodsLabel.snp.makeConstraints {
-            $0.top.equalTo(chickenImageView.snp.bottom).offset(12) // 이미지 하단 12 간격
+            $0.top.equalTo(chickenImageView.snp.bottom).offset(4) // 이미지 하단 12 간격
             $0.leading.trailing.equalToSuperview().inset(5) // 좌우 여백 5 간격
         }
 
         // 가격 레이블 설정
         priceLabel.text = "25,000원" // 임시 테스트
-        priceLabel.font = .systemFont(ofSize: 12, weight: .light) // 가벼운 폰트 설정
+        priceLabel.font = .boldSystemFont(ofSize: 14)
         priceLabel.textAlignment = .center // 중앙 정렬
         priceLabel.textColor = .chioskSecondaryColor // 텍스트 색상 설정
         contentView.addSubview(priceLabel) // 컨테이너 뷰에 가격 레이블 추가

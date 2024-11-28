@@ -23,7 +23,9 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         layout.scrollDirection = .vertical // 세로 스크롤
         layout.minimumLineSpacing = 4 // 세로 간격
         layout.minimumInteritemSpacing = 4 // 가로 간격
-        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.showsVerticalScrollIndicator = false // 스크롤바 숨기기
+        return view
     }()
     
     // 초기화 메서드 - 컬렉션 뷰를 뷰에 추가
