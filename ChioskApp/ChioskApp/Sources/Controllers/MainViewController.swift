@@ -119,24 +119,48 @@ extension MainViewController {
     }
     
     @objc private func updateOrderData() {
-        orderSummaryView.collectionView.reloadData()
-        orderSummaryView.itemQuantityLabel.text = "\(OrderManager.shared.totalQuantity)개"
-        orderSummaryView.amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
+        orderSummaryView.reloadOrderCollectionView()
+        orderSummaryView.updateItemQuantityLabel(with: OrderManager.shared.totalQuantity)
+        orderSummaryView.updateAmountValueLabel(with: OrderManager.shared.totalAmount)
     }
 }
 
 // MARK: - Button Actions Setup
 extension MainViewController {
     private func setupOrderSummaryActions() {
-        // MARK: 주문 취소 Alert 버튼 액션 설정
-        orderSummaryView.cancelButton.addTarget(self, action: #selector(handleCancelOrder), for: .touchUpInside)
         // MARK: 직원 호출 Alert 버튼 액션 설정
-        orderSummaryView.employeeCallButton.addTarget(self, action: #selector(callAlert), for: .touchUpInside)
+        orderSummaryView.setEmployeeCallButtonAction(target: self, action: #selector(callAlert))
+        // MARK: 주문 취소 Alert 버튼 액션 설정
+        orderSummaryView.setCancelButtonAction(target: self, action: #selector(handleCancelOrder))
+        // MARK: 주문 결제 Alert 버튼 액션 설정
+        orderSummaryView.setPaymentButtonAction(target:self, action: #selector(handlePayment))
     }
 }
 
 // MARK: - Alert Handlers
 extension MainViewController {
+    // MARK: 주문 한도 초과 Alert
+    @objc private func showAlert(notification: Notification) {
+        if let message = notification.object as? String {
+            let alert = UIAlertController(title: "경고", message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: 직원 호출 Alert
+    @objc func callAlert() {
+        let alert = UIAlertController(title: "직원 호출", message: "직원을 호출하시겠습니까?", preferredStyle: .alert)
+        let yes = UIAlertAction(title: "호출", style: .default, handler: nil)
+        let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+        
+        alert.addAction(cancel)
+        alert.addAction(yes)
+        
+        present(alert, animated: true)
+    }
+    
     // MARK: 주문 취소 Alert
     @objc private func handleCancelOrder() {
         guard !OrderManager.shared.orders.isEmpty else {
@@ -164,26 +188,18 @@ extension MainViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    // MARK: 직원 호출 Alert
-    @objc func callAlert() {
-        let alert = UIAlertController(title: "직원 호출", message: "직원을 호출하시겠습니까?", preferredStyle: .alert)
-        let yes = UIAlertAction(title: "호출", style: .default, handler: nil)
-        let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
-        
-        alert.addAction(cancel)
-        alert.addAction(yes)
-        
-        present(alert, animated: true)
-    }
-    
-    // MARK: 주문 한도 초과 Alert
-    @objc private func showAlert(notification: Notification) {
-        if let message = notification.object as? String {
-            let alert = UIAlertController(title: "경고", message: message, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-            alert.addAction(okAction)
-            present(alert, animated: true, completion: nil)
+    // MARK: 주문 결제 Alert
+    @objc private func handlePayment() {
+        if OrderManager.shared.orders.isEmpty {
+            print("주문 내역이 없습니다.")
+            return
         }
+        
+        let totalAmount = OrderManager.shared.totalAmount
+        print("결제 완료: \(totalAmount)원")
+        
+        OrderManager.shared.resetOrders()
+        NotificationCenter.default.post(name: .orderUpdated, object: nil)
     }
 }
 
@@ -202,3 +218,5 @@ extension MainViewController: MenuListViewDelegate {
         print("선택된 메뉴: \(menu.title), 가격: \(menu.price)")
     }
 }
+
+

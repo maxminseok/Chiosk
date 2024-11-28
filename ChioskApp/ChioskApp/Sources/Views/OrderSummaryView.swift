@@ -25,25 +25,25 @@ class OrderSummaryView: UIView {
     private var entireView = UIView()
     
     /// 주문 수량을 표시하는 레이블
-    internal let itemQuantityLabel = UILabel()
+    private let itemQuantityLabel = UILabel()
     
     /// 총 금액 라벨
     private let totalAmountLabel = UILabel()
     
     /// 금액 값을 표시하는 레이블
-    internal let amountValueLabel = UILabel()
+    private let amountValueLabel = UILabel()
     
     /// 직원 호출 버튼
-    internal var employeeCallButton = UIButton()
+    private var employeeCallButton = UIButton()
     
     /// 취소 버튼
-    internal var cancelButton = UIButton()
+    private var cancelButton = UIButton()
     
     /// 결제 버튼
     private var paymentButton = UIButton()
     
     /// 주문 목록을 표시하는 컬렉션 뷰
-    let collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
         flowlayout.scrollDirection = .horizontal
         flowlayout.minimumLineSpacing = 9
@@ -173,7 +173,6 @@ extension OrderSummaryView {
         paymentButton.layer.cornerRadius = 10
         paymentButton.setTitleColor(.white, for: .normal)
         paymentButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        paymentButton.addTarget(self, action: #selector(handlePayment), for: .touchUpInside)
         entireView.addSubview(paymentButton)
         
         paymentButton.snp.makeConstraints {
@@ -182,20 +181,6 @@ extension OrderSummaryView {
             $0.width.equalTo(100)
             $0.height.equalTo(50)
         }
-    }
-    
-    /// 결제 처리 메서드
-    @objc private func handlePayment() {
-        if OrderManager.shared.orders.isEmpty {
-            print("주문 내역이 없습니다.")
-            return
-        }
-        
-        let totalAmount = OrderManager.shared.totalAmount
-        print("결제 완료: \(totalAmount)원")
-        
-        OrderManager.shared.resetOrders()
-        NotificationCenter.default.post(name: .orderUpdated, object: nil)
     }
 }
 
@@ -223,5 +208,40 @@ extension OrderSummaryView: UICollectionViewDataSource, UICollectionViewDelegate
         cell.menu = order.menu
         cell.setQuantityLabel(order.quantity)
         return cell
+    }
+}
+
+// MARK: Public Methods
+extension OrderSummaryView {
+    /// 외부에서 cancelButton에 액션을 설정하는 메서드
+    func setCancelButtonAction(target: Any, action: Selector) {
+        cancelButton.addTarget(target, action: action, for: .touchUpInside)
+    }
+    
+    /// 외부에서 employeeCallButton에 액션을 설정하는 메서드
+    func setEmployeeCallButtonAction(target: Any, action: Selector) {
+        employeeCallButton.addTarget(target, action: action, for: .touchUpInside)
+    }
+    
+    /// 외부에서 paymentButton에 액션을 설정하는 메서드
+    func setPaymentButtonAction(target: Any, action: Selector) {
+        paymentButton.addTarget(target, action: action, for: .touchUpInside)
+    }
+    
+    /// 주문 데이터를 리로드
+    func reloadOrderCollectionView() {
+        collectionView.reloadData()
+    }
+    
+    /// 주문 수량 레이블을 업데이트
+    /// - Parameter quantity: 총 주문 수량
+    func updateItemQuantityLabel(with quantity: Int) {
+        itemQuantityLabel.text = "\(quantity)개"
+    }
+    
+    /// 총 금액 레이블을 업데이트
+    /// - Parameter amount: 총 금액
+    func updateAmountValueLabel(with amount: Int) {
+        amountValueLabel.text = "\(amount)원"
     }
 }
