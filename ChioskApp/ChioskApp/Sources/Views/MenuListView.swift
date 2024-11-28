@@ -23,7 +23,7 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     /// 메뉴 데이터 배열
     /// - 각 항목은 이미지 이름, 제목, 가격으로 구성된 튜플
     /// - 데이터 변경 시 컬렉션 뷰를 자동으로 새로고침
-    var menuData: [(image: String, title: String, price: Int)] = [] {
+    internal var menuData: [(image: String, title: String, price: Int)] = [] {
         didSet {
             collectionView.reloadData()
         }

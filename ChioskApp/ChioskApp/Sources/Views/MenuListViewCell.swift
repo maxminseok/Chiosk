@@ -20,7 +20,7 @@ class MenuListViewCell: UICollectionViewCell {
     // MARK: - UI Elements
     
     /// 메뉴 이미지를 표시하는 UIImageView
-    let imageView: UIImageView = {
+    internal let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -28,7 +28,7 @@ class MenuListViewCell: UICollectionViewCell {
     }()
     
     /// 메뉴 이름을 표시하는 UILabel
-    let name: UILabel = {
+    internal let name: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
@@ -36,7 +36,7 @@ class MenuListViewCell: UICollectionViewCell {
     }()
     
     /// 메뉴 가격을 표시하는 UILabel
-    let price: UILabel = {
+    internal let price: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)

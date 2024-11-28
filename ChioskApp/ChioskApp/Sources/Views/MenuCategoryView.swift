@@ -21,14 +21,14 @@ class MenuCategoryView {
     // MARK: - Properties
     
     /// SegmentedControl: 카테고리 전환을 위한 컨트롤
-    let segmentControl = MenuCategorySegmentedControl(items: ["치킨", "사이드", "음료", "기타"]).then {
+    internal let segmentControl = MenuCategorySegmentedControl(items: ["치킨", "사이드", "음료", "기타"]).then {
         $0.selectedSegmentIndex = 0
         $0.backgroundColor = .clear
         $0.selectedSegmentTintColor = .clear
     }
     
     /// 상단 로고 라벨
-    let logo = UILabel().then {
+    internal let logo = UILabel().then {
         $0.backgroundColor = UIColor(named: "ChioskPrimaryColor")
         $0.text = "CHIOSK"
         $0.textColor = .white
@@ -37,25 +37,25 @@ class MenuCategoryView {
     }
 
     /// 메뉴 데이터를 관리하는 객체
-    private let menuList = MenuList()
+    internal let menuList = MenuList()
     
     /// 카테고리별 메뉴 리스트 뷰
-    let chickenMenu = MenuListView()
-    let sidedishMenu = MenuListView()
-    let drinkMenu = MenuListView()
-    let etcMenu = MenuListView()
+    internal let chickenMenu = MenuListView()
+    internal let sidedishMenu = MenuListView()
+    internal let drinkMenu = MenuListView()
+    internal let etcMenu = MenuListView()
     
     // MARK: 카테고리별 View 컨테이너
-    let chickenView = UIView().then {
+    internal let chickenView = UIView().then {
         $0.backgroundColor = .white
     }
-    let sidedishView = UIView().then {
+    internal let sidedishView = UIView().then {
         $0.backgroundColor = .white
     }
-    let drinkView = UIView().then {
+    internal let drinkView = UIView().then {
         $0.backgroundColor = .white
     }
-    let etcView = UIView().then {
+    internal let etcView = UIView().then {
         $0.backgroundColor = .white
     }
     
