@@ -9,7 +9,7 @@
 import UIKit
 
 class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    var menuData: [(image: String, title: String, price: String)] = [] {
+    var menuData: [(image: String, title: String, price: Int)] = [] {
         didSet {
             collectionView.reloadData() // 데이터가 변경되면 컬렉션 뷰 새로고침
         }
@@ -53,7 +53,7 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         let item = menuData[indexPath.row]
         cell.imageView.image = UIImage(named: item.image)
         cell.name.text = item.title
-        cell.price.text = item.price
+        cell.price.text = "\(item.price)원"
         
         return cell
     }
