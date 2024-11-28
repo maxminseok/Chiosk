@@ -23,6 +23,13 @@ class OrderManager {
             return total + (price * order.quantity)
         }
     }
+    
+    // 총 주문 수량 계산
+    var totalQuantity: Int {
+        return orders.reduce(0) { total, order in
+            total + order.quantity
+        }
+    }
 
     // 메뉴 추가 (이미 존재하면 수량 증가)
     func addMenu(_ menu: (image: String, title: String, price: String)) {
