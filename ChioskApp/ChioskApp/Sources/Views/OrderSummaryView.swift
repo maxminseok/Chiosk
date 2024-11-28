@@ -131,7 +131,7 @@ extension OrderSummaryView {
         // 직원 호출 버튼 그림자 설정
         employeeCallButton.layer.shadowColor = UIColor.black.cgColor
         employeeCallButton.layer.shadowOpacity = 0.4
-        employeeCallButton.layer.shadowOffset = CGSize(width: -3, height: 3)
+        employeeCallButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         employeeCallButton.layer.shadowRadius = 4
         
         employeeCallButton.snp.makeConstraints {
@@ -152,7 +152,7 @@ extension OrderSummaryView {
         // 취소 버튼 그림자 설정
         cancelButton.layer.shadowColor = UIColor.black.cgColor
         cancelButton.layer.shadowOpacity = 0.4
-        cancelButton.layer.shadowOffset = CGSize(width: -3, height: 4)
+        cancelButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         cancelButton.layer.shadowRadius = 4
         
         cancelButton.snp.makeConstraints {
@@ -174,7 +174,7 @@ extension OrderSummaryView {
         // 결제 버튼 그림자 추가
         paymentButton.layer.shadowColor = UIColor.black.cgColor
         paymentButton.layer.shadowOpacity = 0.4
-        paymentButton.layer.shadowOffset = CGSize(width: -3, height: 4)
+        paymentButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         paymentButton.layer.shadowRadius = 4
         
         paymentButton.snp.makeConstraints {
