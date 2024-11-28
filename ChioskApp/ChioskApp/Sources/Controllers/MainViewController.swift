@@ -36,8 +36,9 @@ class MainViewController: UIViewController, MenuListViewDelegate {
         let yes = UIAlertAction(title: "호출", style: .default, handler: nil)
         let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
         
-        alert.addAction(yes)
         alert.addAction(cancel)
+        alert.addAction(yes)
+        
         present(alert, animated: true)
     }
 }
