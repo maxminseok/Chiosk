@@ -11,6 +11,7 @@ import SnapKit
 import Then
 
 class MainViewController: UIViewController, MenuListViewDelegate {
+    
 
     let menuCategoryViews = MenuCategoryView() // 메뉴 카테고리 뷰
     let orderSummaryView = OrderSummaryView()  // 주문 요약 뷰
@@ -106,7 +107,7 @@ extension MainViewController {
 }
 
 extension MainViewController {
-    func menuListView(_ menuListView: MenuListView, didSelectMenu menu: (image: String, title: String, price: String)) {
+    func menuListView(_ menuListView: MenuListView, didSelectMenu menu: (image: String, title: String, price: Int)) {
         // 메뉴를 OrderManager에 추가
         let success = OrderManager.shared.addMenu(menu)
         if !success {

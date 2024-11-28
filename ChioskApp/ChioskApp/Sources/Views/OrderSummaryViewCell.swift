@@ -8,12 +8,12 @@
 import UIKit
 
 class OrderSummaryViewCell: UICollectionViewCell {
-    var menu: (image: String, title: String, price: String)? { // 메뉴 데이터
+    var menu: (image: String, title: String, price: Int)? { // 메뉴 데이터
         didSet {    // 업데이트 되도록 변경
             guard let menu = menu else { return }
             chickenImageView.image = UIImage(named: menu.image)
             goodsLabel.text = menu.title
-            priceLabel.text = menu.price
+            priceLabel.text = String(menu.price)
         }
     }
     
@@ -171,7 +171,10 @@ extension OrderSummaryViewCell {
     
     @objc private func increaseQuantity() {
         guard let menu = menu else { return }
-        let success = OrderManager.shared.addMenu(menu)
+        // menu.price를 Int타입으로 변환
+        let price = menu.price
+        // Int로 변환된 가격
+        let success = OrderManager.shared.addMenu((image: menu.image, title: menu.title, price: price))
         if !success {
             NotificationCenter.default.post(name: .showAlert, object: "주문 금액 한도는 1,000,000원 입니다.")
         }
