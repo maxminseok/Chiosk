@@ -160,6 +160,7 @@ extension OrderSummaryView {
         cancelButton.layer.cornerRadius = 10
         cancelButton.setTitleColor(.black, for: .normal)
         cancelButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        cancelButton.addTarget(self, action: #selector(handleCancelOrder), for:. touchUpInside)
         entireView.addSubview(cancelButton)
         
         // 취소 버튼 그림자 설정
@@ -195,6 +196,17 @@ extension OrderSummaryView {
             $0.bottom.equalToSuperview().inset(48)
             $0.width.equalTo(100)
             $0.height.equalTo(50)
+        }
+    }
+    
+    @objc private func handleCancelOrder() {
+        // OrderManager를 이용해 주문 취소 로직 수행
+        if OrderManager.shared.orders.isEmpty {
+            print("취소할 주문 내역이 없습니다.")
+        } else {
+            print("주문이 취소되었습니다.")
+            OrderManager.shared.resetOrders()
+            NotificationCenter.default.post(name: .orderUpdated, object: nil)
         }
     }
 
