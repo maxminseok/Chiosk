@@ -190,16 +190,32 @@ extension MainViewController {
     
     // MARK: 주문 결제 Alert
     @objc private func handlePayment() {
-        if OrderManager.shared.orders.isEmpty {
+        guard !OrderManager.shared.orders.isEmpty else {
             print("주문 내역이 없습니다.")
             return
         }
         
-        let totalAmount = OrderManager.shared.totalAmount
-        print("결제 완료: \(totalAmount)원")
+        // 결제 확인 Alert 표시
+        let alert = UIAlertController(
+            title: "결제 확인",
+            message: "총 결제 금액: \(OrderManager.shared.totalAmount)원",
+            preferredStyle: .alert
+        )
         
-        OrderManager.shared.resetOrders()
-        NotificationCenter.default.post(name: .orderUpdated, object: nil)
+        let confirmAction = UIAlertAction(title: "결제하기", style: .default) { _ in
+            let totalAmount = OrderManager.shared.totalAmount
+            print("결제 완료: \(totalAmount)원")
+            
+            OrderManager.shared.resetOrders()
+            NotificationCenter.default.post(name: .orderUpdated, object: nil)
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
