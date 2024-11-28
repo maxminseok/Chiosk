@@ -33,6 +33,11 @@ class MainViewController: UIViewController {
         setupOrderSummaryActions()
         
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .showAlert, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .orderUpdated, object: nil)
+    }
 }
 
 // MARK: - UI Configuration
@@ -114,6 +119,12 @@ extension MainViewController {
             self,
             selector: #selector(updateOrderData),
             name: .orderUpdated,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(showAlert),
+            name: .showAlert,
             object: nil
         )
     }
