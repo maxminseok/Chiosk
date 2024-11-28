@@ -175,7 +175,7 @@ extension OrderSummaryViewCell {
     /// 수량 증가 처리
     @objc private func increaseQuantity() {
         guard let menu = menu else { return }
-        let success = OrderManager.shared.addMenu((image: menu.image, title: menu.title, price: menu.price))
+        let success = OrderManager.shared.addMenu(menu)
         if !success {
             NotificationCenter.default.post(name: .showAlert, object: "주문 금액 한도는 1,000,000원 입니다.")
         }

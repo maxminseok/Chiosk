@@ -10,6 +10,7 @@
 //
 
 import UIKit
+import SnapKit
 
 /// `MenuListViewCell`
 /// - 메뉴 항목을 보여주는 커스텀 UICollectionViewCell
@@ -21,27 +22,24 @@ class MenuListViewCell: UICollectionViewCell {
     /// 메뉴 이미지를 표시하는 UIImageView
     let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit // 이미지 비율 유지
-        imageView.clipsToBounds = true // 이미지가 뷰의 경계를 넘지 않도록 설정
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         return imageView
     }()
     
     /// 메뉴 이름을 표시하는 UILabel
     let name: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center // 텍스트를 가운데 정렬
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium) // 기본 텍스트 스타일 설정
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         return label
     }()
     
     /// 메뉴 가격을 표시하는 UILabel
     let price: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center // 텍스트를 가운데 정렬
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium) // 가격 표시용 폰트 설정
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return label
     }()
     
@@ -58,23 +56,25 @@ class MenuListViewCell: UICollectionViewCell {
         
         // MARK: Auto Layout Constraints
         /// 각 UI 요소의 Auto Layout 제약 조건을 설정
-        NSLayoutConstraint.activate([
-            // 이미지 뷰 레이아웃
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.6),
-            
-            // 이름 라벨 레이아웃
-            name.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
-            name.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            name.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
-            // 가격 라벨 레이아웃
-            price.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 4),
-            price.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            price.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
+      
+        // 이미지 뷰 레이아웃
+        imageView.snp.makeConstraints {
+            $0.top.equalTo(contentView.snp.top)
+            $0.leading.trailing.equalTo(contentView)
+            $0.height.equalTo(contentView.snp.height).multipliedBy(0.6)
+        }
+      
+        // 이름 라벨 레이아웃
+        name.snp.makeConstraints {
+            $0.top.equalTo(imageView.snp.bottom).offset(8)
+            $0.leading.trailing.equalTo(contentView)
+        }
+      
+        // 가격 라벨 레이아웃
+        price.snp.makeConstraints {
+            $0.top.equalTo(name.snp.bottom).offset(4)
+            $0.leading.trailing.equalTo(contentView)
+        }
     }
     
     /// 초기화 실패 시 에러 처리

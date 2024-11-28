@@ -10,6 +10,7 @@
 //
 
 import UIKit
+import SnapKit
 
 /// `MenuListView`
 /// - 메뉴 데이터를 표시하는 UICollectionView를 포함한 커스텀 뷰
@@ -105,15 +106,13 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(MenuListViewCell.self, forCellWithReuseIdentifier: "MenuListViewCell")
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         // 컬렉션 뷰를 뷰에 추가하고 제약 조건 설정
         addSubview(collectionView)
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
+        collectionView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
     }
 }
