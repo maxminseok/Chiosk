@@ -32,11 +32,20 @@ class OrderManager {
     }
 
     // 메뉴 추가 (이미 존재하면 수량 증가)
-    func addMenu(_ menu: (image: String, title: String, price: String)) {
-        if let index = orders.firstIndex(where: { $0.menu.title == menu.title }) {
-            orders[index].quantity += 1
-        } else {
-            orders.append((menu: menu, quantity: 1))
+    func addMenu(_ menu: (image: String, title: String, price: String)) -> Bool {
+        
+        let totalAmountLimit = totalAmount + (Int(menu.price.replacingOccurrences(of: ",", with: "").replacingOccurrences(of: "원", with: "")) ?? 0)
+        
+        if totalAmountLimit < 1000000 {
+            if let index = orders.firstIndex(where: { $0.menu.title == menu.title }) {
+                orders[index].quantity += 1
+            } else {
+                orders.append((menu: menu, quantity: 1))
+            }
+            return true
+        }
+        else {
+            return false
         }
     }
 

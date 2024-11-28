@@ -13,4 +13,7 @@ extension Notification.Name {
     
     /// 결제 완료 시 사용
     static let paymentCompleted = Notification.Name("paymentCompleted")
+    
+    // 주문 제한 초과 시 사용
+    static let showAlert = Notification.Name("showAlert")
 }
