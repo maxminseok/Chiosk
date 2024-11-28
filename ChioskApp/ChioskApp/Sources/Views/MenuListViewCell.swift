@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class MenuListViewCell: UICollectionViewCell {
     
@@ -15,7 +16,6 @@ class MenuListViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -24,7 +24,6 @@ class MenuListViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -33,7 +32,6 @@ class MenuListViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -45,20 +43,19 @@ class MenuListViewCell: UICollectionViewCell {
         contentView.addSubview(price)
         
         // Auto Layout 설정
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.6),
-            
-            name.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
-            name.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            name.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
-            price.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 4),
-            price.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            price.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
+        imageView.snp.makeConstraints {
+            $0.top.equalTo(contentView.snp.top)
+            $0.leading.trailing.equalTo(contentView)
+            $0.height.equalTo(contentView.snp.height).multipliedBy(0.6)
+        }
+        name.snp.makeConstraints {
+            $0.top.equalTo(imageView.snp.bottom).offset(8)
+            $0.leading.trailing.equalTo(contentView)
+        }
+        price.snp.makeConstraints {
+            $0.top.equalTo(name.snp.bottom).offset(4)
+            $0.leading.trailing.equalTo(contentView)
+        }
     }
     
     // 에러 발생 처리

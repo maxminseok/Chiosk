@@ -199,17 +199,6 @@ extension OrderSummaryView {
         OrderManager.shared.resetOrders()
         NotificationCenter.default.post(name: .orderUpdated, object: nil) // 상태 업데이트 알림
     }
-    
-    // MARK: 직원호출 Alert
-//    @objc private func callAlert() {
-//        let alert = UIAlertController(title: "직원호출", message: "직원을 호출하시겠습니까?", preferredStyle: .alert)
-//        let yes = UIAlertAction(title: "호출", style: .default, handler: nil)
-//        let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
-//        
-//        alert.addAction(yes)
-//        alert.addAction(cancel)
-//        //present(alert, animated: true)
-//    }
 }
 
 // MARK: - CollectionView DataSource & Delegate

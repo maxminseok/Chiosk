@@ -171,10 +171,7 @@ extension OrderSummaryViewCell {
     
     @objc private func increaseQuantity() {
         guard let menu = menu else { return }
-        // menu.price를 Int타입으로 변환
-        let price = menu.price
-        // Int로 변환된 가격
-        let success = OrderManager.shared.addMenu((image: menu.image, title: menu.title, price: price))
+        let success = OrderManager.shared.addMenu(menu)
         if !success {
             NotificationCenter.default.post(name: .showAlert, object: "주문 금액 한도는 1,000,000원 입니다.")
         }

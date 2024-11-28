@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var menuData: [(image: String, title: String, price: Int)] = [] {
@@ -76,18 +77,12 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(MenuListViewCell.self, forCellWithReuseIdentifier: "MenuListViewCell")
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(collectionView)
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
+        collectionView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
     }
-}
-
-#Preview {
-    MainViewController()
 }
