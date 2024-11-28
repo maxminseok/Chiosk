@@ -35,7 +35,7 @@ class MainViewController: UIViewController {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: .showAlert, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .orderLimitExceeded, object: nil)
         NotificationCenter.default.removeObserver(self, name: .orderUpdated, object: nil)
     }
 }
@@ -123,8 +123,8 @@ extension MainViewController {
         )
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(showAlert),
-            name: .showAlert,
+            selector: #selector(orderLimitExceeded),
+            name: .orderLimitExceeded,
             object: nil
         )
     }
@@ -151,7 +151,7 @@ extension MainViewController {
 // MARK: - Alert Handlers
 extension MainViewController {
     // MARK: 주문 한도 초과 Alert
-    @objc private func showAlert(notification: Notification) {
+    @objc private func orderLimitExceeded(notification: Notification) {
         if let message = notification.object as? String {
             let alert = UIAlertController(title: "경고", message: message, preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)

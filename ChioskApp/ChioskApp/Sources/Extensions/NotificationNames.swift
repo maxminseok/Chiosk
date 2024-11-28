@@ -23,5 +23,5 @@ extension Notification.Name {
     
     /// 주문 제한 초과 시 사용
     /// - 사용 예: 주문 금액 한도 초과 시 경고 알림을 트리거
-    static let showAlert = Notification.Name("showAlert")
+    static let orderLimitExceeded = Notification.Name("orderLimitExceeded")
 }

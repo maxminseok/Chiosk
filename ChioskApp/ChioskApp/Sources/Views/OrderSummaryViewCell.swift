@@ -177,7 +177,7 @@ extension OrderSummaryViewCell {
         guard let menu = menu else { return }
         let success = OrderManager.shared.addMenu(menu)
         if !success {
-            NotificationCenter.default.post(name: .showAlert, object: "주문 금액 한도는 1,000,000원 입니다.")
+            NotificationCenter.default.post(name: .orderLimitExceeded, object: "주문 금액 한도는 1,000,000원 입니다.")
         }
         NotificationCenter.default.post(name: .orderUpdated, object: nil)
     }
