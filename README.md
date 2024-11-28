@@ -43,3 +43,13 @@
 
 - **시작일**: 2024/11/25
 - **종료예정일**: 2024/11/29
+
+## 🎥 App Preview
+![Chiosk](https://github.com/user-attachments/assets/b1ce848c-f773-4c51-b8a2-0c5da5370c79)
+![1,000,000](https://github.com/user-attachments/assets/34330f2e-5220-48bb-86a4-dd3dd4bbb6b0)
+
+## 📦 How to Install
+- Clone this repository
+```
+https://github.com/SpartaCoding-iOS05-Chill/Chiosk.git
+```
