@@ -27,10 +27,11 @@ class MainViewController: UIViewController {
         
         configureUI()
         segmentChanged(menuCategoryViews.segmentControl) // 초기 SegmentedControl 선택
-        setupNotifications()
-        
         setupMenuDelegates()
+        
+        setupNotifications()
         setupOrderSummaryActions()
+        
     }
 }
 
@@ -38,9 +39,6 @@ class MainViewController: UIViewController {
 extension MainViewController {
     func configureUI() {
         view.backgroundColor = .white
-        
-        // MARK: 직원 호출 Alert 버튼 액션 설정
-        orderSummaryView.employeeCallButton.addTarget(self, action: #selector(callAlert), for: .touchUpInside)
         
         // MARK: 상단 로고 추가
         view.addSubview(menuCategoryViews.logo)
@@ -77,47 +75,6 @@ extension MainViewController {
     }
 }
 
-// MARK: - Menu Delegates Setup
-extension MainViewController {
-    private func setupMenuDelegates() {
-        menuCategoryViews.chickenMenu.delegate = self
-        menuCategoryViews.sidedishMenu.delegate = self
-        menuCategoryViews.drinkMenu.delegate = self
-        menuCategoryViews.etcMenu.delegate = self
-    }
-}
-
-// MARK: - Order Summary Actions Setup
-extension MainViewController {
-    private func setupOrderSummaryActions() {
-        orderSummaryView.cancelButton.addTarget(self, action: #selector(handleCancelOrder), for: .touchUpInside)
-    }
-}
-
-// MARK: - Alert Handlers
-extension MainViewController {
-    // MARK: 직원 호출 Alert
-    @objc func callAlert() {
-        let alert = UIAlertController(title: "직원 호출", message: "직원을 호출하시겠습니까?", preferredStyle: .alert)
-        let yes = UIAlertAction(title: "호출", style: .default, handler: nil)
-        let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
-        
-        alert.addAction(cancel)
-        alert.addAction(yes)
-        
-        present(alert, animated: true)
-    }
-    
-    @objc private func showAlert(notification: Notification) {
-        if let message = notification.object as? String {
-            let alert = UIAlertController(title: "경고", message: message, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-            alert.addAction(okAction)
-            present(alert, animated: true, completion: nil)
-        }
-    }
-}
-
 // MARK: - Segmented Control Logic
 extension MainViewController {
     @objc func segmentChanged(_ sender: UISegmentedControl) {
@@ -140,24 +97,47 @@ extension MainViewController {
     }
 }
 
-// MARK: - Menu Selection Logic
-extension MainViewController: MenuListViewDelegate {
-    func menuListView(_ menuListView: MenuListView, didSelectMenu menu: (image: String, title: String, price: Int)) {
-        let success = OrderManager.shared.addMenu(menu)
-        if !success {
-            let alert = UIAlertController(title: "경고", message: "주문 금액 한도는 1,000,000원 입니다.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-            alert.addAction(okAction)
-            present(alert, animated: true, completion: nil)
-        }
-
-        NotificationCenter.default.post(name: .orderUpdated, object: nil)
-        print("선택된 메뉴: \(menu.title), 가격: \(menu.price)")
+// MARK: - Menu Delegates Setup
+extension MainViewController {
+    private func setupMenuDelegates() {
+        menuCategoryViews.chickenMenu.delegate = self
+        menuCategoryViews.sidedishMenu.delegate = self
+        menuCategoryViews.drinkMenu.delegate = self
+        menuCategoryViews.etcMenu.delegate = self
     }
 }
 
-// MARK: - Order Cancellation Logic
+// MARK: - Notifications
 extension MainViewController {
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateOrderData),
+            name: .orderUpdated,
+            object: nil
+        )
+    }
+    
+    @objc private func updateOrderData() {
+        orderSummaryView.collectionView.reloadData()
+        orderSummaryView.itemQuantityLabel.text = "\(OrderManager.shared.totalQuantity)개"
+        orderSummaryView.amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
+    }
+}
+
+// MARK: - Button Actions Setup
+extension MainViewController {
+    private func setupOrderSummaryActions() {
+        // MARK: 주문 취소 Alert 버튼 액션 설정
+        orderSummaryView.cancelButton.addTarget(self, action: #selector(handleCancelOrder), for: .touchUpInside)
+        // MARK: 직원 호출 Alert 버튼 액션 설정
+        orderSummaryView.employeeCallButton.addTarget(self, action: #selector(callAlert), for: .touchUpInside)
+    }
+}
+
+// MARK: - Alert Handlers
+extension MainViewController {
+    // MARK: 주문 취소 Alert
     @objc private func handleCancelOrder() {
         guard !OrderManager.shared.orders.isEmpty else {
             print("취소할 주문 내역이 없습니다.")
@@ -183,22 +163,42 @@ extension MainViewController {
         
         present(alert, animated: true, completion: nil)
     }
-}
-
-// MARK: - Notifications
-extension MainViewController {
-    private func setupNotifications() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateOrderData),
-            name: .orderUpdated,
-            object: nil
-        )
+    
+    // MARK: 직원 호출 Alert
+    @objc func callAlert() {
+        let alert = UIAlertController(title: "직원 호출", message: "직원을 호출하시겠습니까?", preferredStyle: .alert)
+        let yes = UIAlertAction(title: "호출", style: .default, handler: nil)
+        let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+        
+        alert.addAction(cancel)
+        alert.addAction(yes)
+        
+        present(alert, animated: true)
     }
     
-    @objc private func updateOrderData() {
-        orderSummaryView.collectionView.reloadData()
-        orderSummaryView.itemQuantityLabel.text = "\(OrderManager.shared.totalQuantity)개"
-        orderSummaryView.amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
+    // MARK: 주문 한도 초과 Alert
+    @objc private func showAlert(notification: Notification) {
+        if let message = notification.object as? String {
+            let alert = UIAlertController(title: "경고", message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
+        }
+    }
+}
+
+// MARK: - Menu Selection Logic
+extension MainViewController: MenuListViewDelegate {
+    func menuListView(_ menuListView: MenuListView, didSelectMenu menu: (image: String, title: String, price: Int)) {
+        let success = OrderManager.shared.addMenu(menu)
+        if !success {
+            let alert = UIAlertController(title: "경고", message: "주문 금액 한도는 1,000,000원 입니다.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
+        }
+
+        NotificationCenter.default.post(name: .orderUpdated, object: nil)
+        print("선택된 메뉴: \(menu.title), 가격: \(menu.price)")
     }
 }
