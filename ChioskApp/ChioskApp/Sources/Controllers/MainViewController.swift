@@ -22,6 +22,7 @@ class MainViewController: UIViewController, MenuListViewDelegate {
 
         configureUI()
         segmentChanged(menuCategoryViews.segmentControl) // 초기 SegmentedControl 선택
+        setupNotifications()
         
         menuCategoryViews.chickenMenu.delegate = self
         menuCategoryViews.sidedishMenu.delegate = self
@@ -159,3 +160,26 @@ extension MainViewController {
     }
 }
 
+// MARK: - Notification Setup
+extension MainViewController {
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateOrderData),
+            name: .orderUpdated,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(showAlert(notification:)),
+            name: .showAlert,
+            object: nil)
+    }
+    
+    @objc private func updateOrderData() {
+        orderSummaryView.collectionView.reloadData()
+        orderSummaryView.itemQuantityLabel.text = "\(OrderManager.shared.totalQuantity)개" // 총 주문 수량으로 변경
+        orderSummaryView.amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
+    }
+}

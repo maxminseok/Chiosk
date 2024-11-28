@@ -17,9 +17,9 @@ class OrderSummaryView: UIView {
     private var entireView = UIView() // 주문 하단 전체 뷰
     
     // 레이블 정의
-    private let itemQuantityLabel = UILabel()  // 총 수량 표시
+    internal let itemQuantityLabel = UILabel()  // 총 수량 표시
     private let totalAmountLabel = UILabel()  // 합계 레이블
-    private let amountValueLabel = UILabel()  // 금액 표시 레이블
+    internal let amountValueLabel = UILabel()  // 금액 표시 레이블
     
     // 버튼 정의
     private var employeeCallButton = UIButton()  // 직원 호출 버튼
@@ -42,7 +42,6 @@ class OrderSummaryView: UIView {
         super.init(frame: frame)
         setupUI() // UI 구성 메서드 호출
         setupButtons() // 버튼 구성 메서드 호출
-        setupNotifications() // 알림 등록
         setupCollectionView() // 컬렉션 뷰 설정
     }
     
@@ -50,19 +49,6 @@ class OrderSummaryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-private func alert() {
-    let alert = UIAlertController(title: "직원호출", message: "직원을 호출하시겠습니까?", preferredStyle: .alert)
-    let yes = UIAlertAction(title: "호출", style: .default, handler: nil)
-    let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
-    
-    alert.addAction(yes)
-    alert.addAction(cancel)
-    
-    //present(alert, animated: true)
-}
-
-
 
 // MARK: - UI Setup
 extension OrderSummaryView {
@@ -132,7 +118,7 @@ extension OrderSummaryView {
     }
 }
 
-// MARK: - Button Actions
+// MARK: - Button Setups
 extension OrderSummaryView {
     private func setupButtons() {
         // 직원 호출 버튼 설정
@@ -234,23 +220,5 @@ extension OrderSummaryView: UICollectionViewDataSource, UICollectionViewDelegate
         cell.menu = order.menu
         cell.setQuantityLabel(order.quantity)
         return cell
-    }
-}
-
-// MARK: - Notification Setup
-extension OrderSummaryView {
-    private func setupNotifications() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateOrderData),
-            name: .orderUpdated,
-            object: nil
-        )
-    }
-    
-    @objc private func updateOrderData() {
-        collectionView.reloadData()
-        itemQuantityLabel.text = "\(OrderManager.shared.totalQuantity)개" // 총 주문 수량으로 변경
-        amountValueLabel.text = "\(OrderManager.shared.totalAmount)원"
     }
 }
