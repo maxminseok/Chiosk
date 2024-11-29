@@ -163,7 +163,9 @@ extension MainViewController {
     // MARK: 직원 호출 Alert
     @objc func callAlert() {
         let alert = UIAlertController(title: "직원 호출", message: "직원을 호출하시겠습니까?", preferredStyle: .alert)
-        let yes = UIAlertAction(title: "호출", style: .default, handler: nil)
+        let yes = UIAlertAction(title: "호출", style: .default) { _ in
+            print("직원을 호출했습니다.")
+        }
         let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
         
         alert.addAction(cancel)
