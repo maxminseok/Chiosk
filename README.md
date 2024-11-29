@@ -79,8 +79,8 @@ Sources/
 ```
 
 ## 🖼️ App Preview
-|![Chiosk](https://github.com/user-attachments/assets/b1ce848c-f773-4c51-b8a2-0c5da5370c79)|![1,000,000](https://github.com/user-attachments/assets/34330f2e-5220-48bb-86a4-dd3dd4bbb6b0)|
-|---|---|
+![chiosk_final](https://github.com/user-attachments/assets/cea787cd-331a-4487-8b9a-bf84ce56198f)
+
 
 ## 🏷 Main Features
 - **메인 페이지**  
