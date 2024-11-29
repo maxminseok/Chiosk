@@ -132,6 +132,22 @@ Sources/
     - **Controller**: `MainViewController`, `MenuCategoryController`  
       - 사용자 입력 처리 및 View와 Model 간의 데이터 흐름 조율
 
+## ✨ Additional Considerations
+- **UX 개선**
+  - 직원 호출, 주문 취소, 주문 결제 버튼에 Alert를 띄워 사용자 의사를 확인
+
+
+- **주문 한도 설정**
+  - 총 주문 금액이 1,000,000원을 초과할 경우 주문을 제한하고, 사용자에게 Alert로 경고 메시지를 표시
+
+- **버튼 동적 스타일링**
+  - 수량이 1 이상일 때 minusButton 배경색을 활성화 상태로 변경, 1일 경우 기본값으로 복원.
+  - 버튼 스타일은 setStyle 메서드를 통해 동적으로 설정.
+
+- **개발자 경험 개선**
+  - 꼼꼼한 주석 처리: 주요 메서드와 UI 구성 요소에 주석을 추가하여 코드 가독성을 높이고 유지보수성을 강화
+  - 디버그 프린트 활용: 이벤트 발생 시 print로 디버깅 정보를 출력하여 문제 추적 용이성 개선
+
 ## 📦 How to Install
 - Clone this repository
 ```
