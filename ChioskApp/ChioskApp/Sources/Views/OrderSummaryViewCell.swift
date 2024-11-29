@@ -20,7 +20,7 @@ class OrderSummaryViewCell: UICollectionViewCell {
     
     /// 메뉴 데이터
     /// - 설정될 때마다 UI 요소가 업데이트됩니다.
-    var menu: (image: String, title: String, price: Int)? {
+    internal var menu: (image: String, title: String, price: Int)? {
         didSet {
             guard let menu = menu else { return }
             chickenImageView.image = UIImage(named: menu.image)
@@ -177,7 +177,7 @@ extension OrderSummaryViewCell {
         guard let menu = menu else { return }
         let success = OrderManager.shared.addMenu(menu)
         if !success {
-            NotificationCenter.default.post(name: .showAlert, object: "주문 금액 한도는 1,000,000원 입니다.")
+            NotificationCenter.default.post(name: .orderLimitExceeded, object: "주문 금액 한도는 1,000,000원 입니다.")
         }
         NotificationCenter.default.post(name: .orderUpdated, object: nil)
     }
