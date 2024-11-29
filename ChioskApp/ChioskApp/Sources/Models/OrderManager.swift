@@ -39,6 +39,7 @@ class OrderManager {
         }
     }
     
+
     /// 총 주문 수량
     /// - 주문한 모든 메뉴의 수량을 합산
     var totalQuantity: Int {

@@ -207,6 +207,7 @@ extension OrderSummaryView: UICollectionViewDataSource, UICollectionViewDelegate
         let order = OrderManager.shared.orders[indexPath.row]
         cell.menu = order.menu
         cell.setQuantityLabel(order.quantity)
+        cell.updateMinusButton(quantity: order.quantity) // 함수 호출
         return cell
     }
 }

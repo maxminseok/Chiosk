@@ -181,17 +181,13 @@ extension OrderSummaryViewCell {
         }
         NotificationCenter.default.post(name: .orderUpdated, object: nil)
     }
-}
-
-// MARK: - UIButton Extension for Styling
-private extension UIButton {
-    /// 버튼 스타일 설정
-    func setStyle(borderColor: UIColor, backgroundColor: UIColor) {
-        self.layer.borderWidth = 1
-        self.layer.borderColor = borderColor.cgColor
-        self.layer.cornerRadius = 4
-        self.titleLabel?.font = .systemFont(ofSize: 10)
-        self.backgroundColor = backgroundColor
-        self.setTitleColor(.black, for: .normal)
+    
+     func updateMinusButton(quantity: Int) {
+        // 수량이 1개이상일 경우 버튼 색상 업데이트
+        if quantity > 1 {
+            minusButton.backgroundColor = .chioskSecondaryColor // 1개 이상일때 업데이트한다.
+        } else {
+            minusButton.backgroundColor = .white // 1개 일때 다시 기본값
+        }
     }
 }
