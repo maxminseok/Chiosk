@@ -191,16 +191,3 @@ extension OrderSummaryViewCell {
         }
     }
 }
-
-// MARK: - UIButton Extension for Styling
-private extension UIButton {
-    /// 버튼 스타일 설정
-    func setStyle(borderColor: UIColor, backgroundColor: UIColor) {
-        self.layer.borderWidth = 1
-        self.layer.borderColor = borderColor.cgColor
-        self.layer.cornerRadius = 4
-        self.titleLabel?.font = .systemFont(ofSize: 10)
-        self.backgroundColor = backgroundColor
-        self.setTitleColor(.black, for: .normal)
-    }
-}
