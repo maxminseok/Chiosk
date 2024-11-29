@@ -121,17 +121,16 @@ Sources/
 - **NotificationCenter 패턴**  
   - 주문 데이터 변경 사항을 각 화면에 전달
   - `OrderSummaryViewCell`에서 수량 조절 시 `orderUpdated` Notification을 통해 UI 업데이트
-  - 주문 한도 금액 초과 시 `orderLimitExceeded` 알림을 `NotificationCenter`로 전달.
+  - 주문 한도 금액 초과 시 `orderLimitExceeded` 알림을 `NotificationCenter`로 전달
 
 - **아키텍처**  
   - **MVC (Model-View-Controller)**  
     - **Model**: `MenuList`, `OrderManager`  
-      - 데이터 관리 및 비즈니스 로직 처리.  
-    - **View**: `MenuListView`, `OrderSummaryView`, `OrderSummaryViewCell`  
-      - UI 요소와 화면 레이아웃 담당.  
+      - 데이터 관리 및 비즈니스 로직 처리
+    - **View**: `MenuListView`, `OrderSummaryView`
+      - UI 요소와 화면 레이아웃 담당
     - **Controller**: `MainViewController`, `MenuCategoryController`  
-      - 사용자 입력 처리 및 View와 Model 간의 데이터 흐름 조율.  
-    - 각 레이어가 명확히 분리되어 유지보수성과 확장성을 고려.
+      - 사용자 입력 처리 및 View와 Model 간의 데이터 흐름 조율
 
 ## 📦 How to Install
 - Clone this repository
