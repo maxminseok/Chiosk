@@ -1,11 +1,11 @@
 //
-//  MenuCategoryView.swift
+//  MenuCategoryController.swift
 //  ChioskApp
 //
 //  Created on 2024-11-26.
 //
 //  Description:
-//  - 이 클래스는 메뉴 카테고리와 관련된 UI를 정의하는 뷰입니다.
+//  - 이 클래스는 메뉴 카테고리와 관련된 UI를 정의하고 MenuList 인스턴스를 소유합니다.
 //  - SegmentedControl을 사용하여 "치킨", "사이드", "음료", "기타" 카테고리로 메뉴를 나누어 표시하며, 상단에 로고를 포함합니다.
 //
 
@@ -13,10 +13,10 @@ import UIKit
 import SnapKit
 import Then
 
-/// `MenuCategoryView`
+/// `MenuCategoryController`
 /// - 메뉴 카테고리와 관련된 UI 요소를 관리하는 클래스
 /// - SegmentedControl과 카테고리별 뷰 및 메뉴 리스트를 포함
-class MenuCategoryView {
+class MenuCategoryController {
     
     // MARK: - Properties
     

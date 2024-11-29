@@ -18,7 +18,7 @@ import Then
 class MainViewController: UIViewController {
     
     // MARK: - Properties
-    let menuCategoryViews = MenuCategoryView() // 메뉴 카테고리 뷰
+    let menuCategoryController = MenuCategoryController() // 메뉴 카테고리 뷰
     let orderSummaryView = OrderSummaryView()  // 주문 요약 뷰
     
     // MARK: - Lifecycle
@@ -26,7 +26,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
-        segmentChanged(menuCategoryViews.segmentControl) // 초기 SegmentedControl 선택
+        segmentChanged(menuCategoryController.segmentControl) // 초기 SegmentedControl 선택
         setupMenuDelegates()
         
         setupNotifications()
@@ -46,28 +46,28 @@ extension MainViewController {
         view.backgroundColor = .white
         
         // MARK: 상단 로고 추가
-        view.addSubview(menuCategoryViews.logo)
-        menuCategoryViews.logo.snp.makeConstraints {
+        view.addSubview(menuCategoryController.logo)
+        menuCategoryController.logo.snp.makeConstraints {
             $0.top.height.equalTo(60)
             $0.leading.trailing.equalToSuperview()
         }
         
         // MARK: SegmentedControl 추가
-        view.addSubview(menuCategoryViews.segmentControl)
-        menuCategoryViews.segmentControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
-        menuCategoryViews.segmentControl.snp.makeConstraints {
-            $0.top.equalTo(menuCategoryViews.logo.snp.bottom)
+        view.addSubview(menuCategoryController.segmentControl)
+        menuCategoryController.segmentControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
+        menuCategoryController.segmentControl.snp.makeConstraints {
+            $0.top.equalTo(menuCategoryController.logo.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(58)
         }
         
         // MARK: Place Holder 뷰들 레이아웃
-        [menuCategoryViews.chickenView, menuCategoryViews.sidedishView, menuCategoryViews.drinkView, menuCategoryViews.etcView].forEach {
+        [menuCategoryController.chickenView, menuCategoryController.sidedishView, menuCategoryController.drinkView, menuCategoryController.etcView].forEach {
             view.addSubview($0)
             $0.snp.makeConstraints {
                 $0.width.equalToSuperview()
                 $0.height.equalTo(352)
-                $0.top.equalTo(menuCategoryViews.segmentControl.snp.bottom)
+                $0.top.equalTo(menuCategoryController.segmentControl.snp.bottom)
             }
         }
         
@@ -83,19 +83,19 @@ extension MainViewController {
 // MARK: - Segmented Control Logic
 extension MainViewController {
     @objc func segmentChanged(_ sender: UISegmentedControl) {
-        [menuCategoryViews.chickenView, menuCategoryViews.sidedishView, menuCategoryViews.drinkView, menuCategoryViews.etcView].forEach {
+        [menuCategoryController.chickenView, menuCategoryController.sidedishView, menuCategoryController.drinkView, menuCategoryController.etcView].forEach {
             $0.isHidden = true // 해당 뷰 제외 나머지는 안보이게 숨김
         }
         
         switch sender.selectedSegmentIndex {
         case 0:
-            menuCategoryViews.chickenView.isHidden = false
+            menuCategoryController.chickenView.isHidden = false
         case 1:
-            menuCategoryViews.sidedishView.isHidden = false
+            menuCategoryController.sidedishView.isHidden = false
         case 2:
-            menuCategoryViews.drinkView.isHidden = false
+            menuCategoryController.drinkView.isHidden = false
         case 3:
-            menuCategoryViews.etcView.isHidden = false
+            menuCategoryController.etcView.isHidden = false
         default:
             break
         }
@@ -105,10 +105,10 @@ extension MainViewController {
 // MARK: - Menu Delegates Setup
 extension MainViewController {
     private func setupMenuDelegates() {
-        menuCategoryViews.chickenMenu.delegate = self
-        menuCategoryViews.sidedishMenu.delegate = self
-        menuCategoryViews.drinkMenu.delegate = self
-        menuCategoryViews.etcMenu.delegate = self
+        menuCategoryController.chickenMenu.delegate = self
+        menuCategoryController.sidedishMenu.delegate = self
+        menuCategoryController.drinkMenu.delegate = self
+        menuCategoryController.etcMenu.delegate = self
     }
 }
 
