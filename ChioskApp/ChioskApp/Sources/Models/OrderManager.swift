@@ -24,8 +24,6 @@ class OrderManager {
         }
     }
     
-    
-    
     // 총 주문 수량 계산
     var totalQuantity: Int {
         return orders.reduce(0) { total, order in

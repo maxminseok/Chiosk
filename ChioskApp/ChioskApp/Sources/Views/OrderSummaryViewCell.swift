@@ -180,7 +180,18 @@ extension OrderSummaryViewCell {
         }
         NotificationCenter.default.post(name: .orderUpdated, object: nil) // 상태 업데이트 알림
     }
+    
+     func updateMinusButton(quantity: Int) {
+        // 수량이 1개이상일 경우 버튼 색상 업데이트
+        if quantity > 1 {
+            minusButton.backgroundColor = .chioskSecondaryColor // 1개 이상일때 업데이트한다.
+        } else {
+            minusButton.backgroundColor = .white // 1개 일때 다시 기본값
+        }
+    }
 }
+
+
 
 // 그림자 구현으로 인해 확인하면서 작업을 하고 싶어서 메서드 호출.
 #Preview("MainViewController") {
