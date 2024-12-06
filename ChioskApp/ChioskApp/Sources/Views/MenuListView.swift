@@ -19,10 +19,7 @@ import SnapKit
 class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MenuCategoryViewDelegate {
     
     // MARK: - Properties
-    
-    /// 메뉴 선택 이벤트를 전달하기 위한 delegate
-    weak var delegate: MenuListViewDelegate?
-    
+
     var dataSource: [Food] = []
     func changeMenu(to category: MenuCategory) {
         dataSource = category.menus
@@ -86,6 +83,9 @@ class MenuListView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         return CGSize(width: width, height: width * 1.2) // 세로 크기를 비율로 설정
     }
     // MARK: - UICollectionViewDelegate
+    
+    /// 메뉴 선택 이벤트를 전달하기 위한 delegate
+    weak var delegate: MenuListViewDelegate?
     
     /// 항목 선택 시 호출
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

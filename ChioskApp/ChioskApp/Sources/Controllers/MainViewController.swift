@@ -18,7 +18,6 @@ import Then
 class MainViewController: UIViewController {
     
     // MARK: - Properties
-//    let menuCategoryController = MenuCategoryController() // 메뉴 카테고리 뷰
     let orderSummaryView = OrderSummaryView()  // 주문 요약 뷰
     let categoryView: MenuCategoryView = .init()
     let listView: MenuListView = .init()
@@ -28,10 +27,17 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         categoryView.delegate = listView
+        listView.delegate = self
+        
+        // SegmentedControl의 초기 선택값 설정
+        categoryView.segmentControl.selectedSegmentIndex = 0
+        // 첫 번째 카테고리(.chicken)로 데이터 초기화
+        let defaultCategory: MenuCategory = .chicken
+        listView.changeMenu(to: defaultCategory) // 초기 데이터를 리스트 뷰에 설정
+        
         configureUI()
         setupNotifications()
         setupOrderSummaryActions()
-        
     }
     
     deinit {
