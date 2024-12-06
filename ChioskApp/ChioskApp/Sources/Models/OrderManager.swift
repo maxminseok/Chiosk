@@ -29,7 +29,7 @@ class OrderManager {
     
     /// 현재 주문 데이터 배열
     /// - 각 항목은 메뉴 데이터(이미지, 제목, 가격)와 수량으로 구성된 튜플입니다.
-    var orders: [(menu: (image: String, title: String, price: Int), quantity: Int)] = []
+    var orders: [(menu: Food, quantity: Int)] = []
 
     /// 총 주문 금액
     /// - 모든 메뉴의 가격과 수량을 곱한 값을 합산하여 계산
@@ -56,7 +56,7 @@ class OrderManager {
     /// - Parameters:
     ///   - menu: 추가하려는 메뉴 데이터 (이미지, 제목, 가격)
     /// - Returns: 주문 가능 여부 (한도 초과 시 false 반환)
-    func addMenu(_ menu: (image: String, title: String, price: Int)) -> Bool {
+    func addMenu(_ menu: Food) -> Bool {
         let totalAmountLimit = totalAmount + menu.price // 총 금액 계산
         
         // 주문 금액이 한도를 초과하지 않는 경우 처리
