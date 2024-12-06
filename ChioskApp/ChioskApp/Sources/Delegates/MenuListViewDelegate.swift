@@ -10,5 +10,5 @@
 //
 
 protocol MenuListViewDelegate: AnyObject {
-    func menuListView(_ menuListView: MenuListView, didSelectMenu menu: (image: String, title: String, price: Int))
+    func menuListView(_ menuListView: MenuListView, didSelectMenu menu: Food)
 }

@@ -18,20 +18,26 @@ import Then
 class MainViewController: UIViewController {
     
     // MARK: - Properties
-    let menuCategoryController = MenuCategoryController() // 메뉴 카테고리 뷰
     let orderSummaryView = OrderSummaryView()  // 주문 요약 뷰
+    let categoryView: MenuCategoryView = .init()
+    let listView: MenuListView = .init()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
-        segmentChanged(menuCategoryController.segmentControl) // 초기 SegmentedControl 선택
-        setupMenuDelegates()
+        categoryView.delegate = listView
+        listView.delegate = self
         
+        // SegmentedControl의 초기 선택값 설정
+        categoryView.segmentControl.selectedSegmentIndex = 0
+        // 첫 번째 카테고리(.chicken)로 데이터 초기화
+        let defaultCategory: MenuCategory = .chicken
+        listView.changeMenu(to: defaultCategory) // 초기 데이터를 리스트 뷰에 설정
+        
+        configureUI()
         setupNotifications()
         setupOrderSummaryActions()
-        
     }
     
     deinit {
@@ -46,30 +52,28 @@ extension MainViewController {
         view.backgroundColor = .white
         
         // MARK: 상단 로고 추가
-        view.addSubview(menuCategoryController.logo)
-        menuCategoryController.logo.snp.makeConstraints {
+        view.addSubview(categoryView.logo)
+        categoryView.logo.snp.makeConstraints {
             $0.top.height.equalTo(60)
             $0.leading.trailing.equalToSuperview()
         }
         
         // MARK: SegmentedControl 추가
-        view.addSubview(menuCategoryController.segmentControl)
-        menuCategoryController.segmentControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
-        menuCategoryController.segmentControl.snp.makeConstraints {
-            $0.top.equalTo(menuCategoryController.logo.snp.bottom)
+        view.addSubview(categoryView.segmentControl)
+        categoryView.segmentControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
+        categoryView.segmentControl.snp.makeConstraints {
+            $0.top.equalTo(categoryView.logo.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(58)
         }
         
-        // MARK: Place Holder 뷰들 레이아웃
-        [menuCategoryController.chickenView, menuCategoryController.sidedishView, menuCategoryController.drinkView, menuCategoryController.etcView].forEach {
-            view.addSubview($0)
-            $0.snp.makeConstraints {
-                $0.width.equalToSuperview()
-                $0.height.equalTo(352)
-                $0.top.equalTo(menuCategoryController.segmentControl.snp.bottom)
-            }
-        }
+        // MenuListView 추가
+          view.addSubview(listView)
+          listView.snp.makeConstraints {
+              $0.top.equalTo(categoryView.segmentControl.snp.bottom)
+              $0.leading.trailing.equalToSuperview()
+              $0.bottom.equalToSuperview().inset(342) // 주문 요약 뷰 위쪽으로 여백
+          }
         
         // MARK: 주문 요약 뷰 추가
         view.addSubview(orderSummaryView)
@@ -83,32 +87,18 @@ extension MainViewController {
 // MARK: - Segmented Control Logic
 extension MainViewController {
     @objc func segmentChanged(_ sender: UISegmentedControl) {
-        [menuCategoryController.chickenView, menuCategoryController.sidedishView, menuCategoryController.drinkView, menuCategoryController.etcView].forEach {
-            $0.isHidden = true // 해당 뷰 제외 나머지는 안보이게 숨김
-        }
-        
         switch sender.selectedSegmentIndex {
         case 0:
-            menuCategoryController.chickenView.isHidden = false
+            categoryView.setIndex(.chicken)
         case 1:
-            menuCategoryController.sidedishView.isHidden = false
+            categoryView.setIndex(.side)
         case 2:
-            menuCategoryController.drinkView.isHidden = false
+            categoryView.setIndex(.drink)
         case 3:
-            menuCategoryController.etcView.isHidden = false
+            categoryView.setIndex(.other)
         default:
             break
         }
-    }
-}
-
-// MARK: - Menu Delegates Setup
-extension MainViewController {
-    private func setupMenuDelegates() {
-        menuCategoryController.chickenMenu.delegate = self
-        menuCategoryController.sidedishMenu.delegate = self
-        menuCategoryController.drinkMenu.delegate = self
-        menuCategoryController.etcMenu.delegate = self
     }
 }
 
@@ -234,7 +224,7 @@ extension MainViewController {
 
 // MARK: - Menu Selection Logic
 extension MainViewController: MenuListViewDelegate {
-    func menuListView(_ menuListView: MenuListView, didSelectMenu menu: (image: String, title: String, price: Int)) {
+    func menuListView(_ menuListView: MenuListView, didSelectMenu menu: Food) {
         let success = OrderManager.shared.addMenu(menu)
         if !success {
             let alert = UIAlertController(title: "경고", message: "주문 금액 한도는 1,000,000원 입니다.", preferredStyle: .alert)
